@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Ubuntu:wght@300;400;500&family=Ubuntu+Mono&display=swap" rel="stylesheet"><style>body{margin:0;font-family:Ubuntu,system-ui,sans-serif}a{color:inherit;text-decoration:none}a:hover{color:#D9A54E}.dv-turn{padding:40px 44px 32px;scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#241F19;color:#fff;border-radius:4px}.dv-tname{font:500 13px/1.2 Ubuntu,sans-serif;color:#241F19}.dv-opts{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.1);color:#241F19;border-radius:5px}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 Ubuntu,sans-serif;color:#4a443a}.dv-card{background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 10px rgba(0,0,0,.08);overflow:hidden}.dv-opt:target .dv-oid{background:#D9A54E;color:#241F19}@keyframes npTide1{0%{transform:translate(-8%,6%) scale(1)}50%{transform:translate(6%,-6%) scale(1.18)}100%{transform:translate(-8%,6%) scale(1)}}@keyframes npTide2{0%{transform:translate(10%,-4%) scale(1.1);opacity:.5}50%{transform:translate(-10%,8%) scale(.9);opacity:.9}100%{transform:translate(10%,-4%) scale(1.1);opacity:.5}}@keyframes npSweep{0%{transform:translateX(-60%) rotate(18deg)}100%{transform:translateX(160%) rotate(18deg)}}@keyframes npBreath{0%,100%{transform:translate(-50%,-50%) scale(.92);opacity:.75}50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}@keyframes npDust{0%{transform:translateY(0);opacity:0}15%{opacity:var(--o)}85%{opacity:var(--o)}100%{transform:translateY(-140px);opacity:0}}@keyframes npBeam{0%,100%{opacity:.88}45%{opacity:1}55%{opacity:.94}}@keyframes npPool{0%,100%{opacity:.75;transform:translateX(-50%) scaleX(.96)}50%{opacity:1;transform:translateX(-50%) scaleX(1.04)}}@keyframes npRay{0%,100%{opacity:.35}50%{opacity:.7}}@media (prefers-reduced-motion:reduce){.np-tide *{animation:none!important}}.dv-next{margin:22px 0 0;font:12px/1.5 Ubuntu,sans-serif;color:#4a443a}@keyframes npBreathe{0%,100%{opacity:.85}50%{opacity:1}}@media (hover:hover) and (pointer:fine){[data-np-btn="p"]:hover{background:#EDE9E3!important;color:#241F19!important}[data-np-btn="s"]:hover{border-color:var(--np-accent,#D9A54E)!important;color:var(--np-accent,#D9A54E)!important}[data-np-soc]:hover{opacity:1!important}[data-np-link]:hover [data-np-arrow]{transform:translateX(4px)}[data-np-link]:hover{color:#241F19!important}[data-np-ptw]:hover [data-np-dot]{transform:scale(1.2)}}[data-np-ptw]:focus-visible [data-np-dot]{transform:scale(1.2)}[data-np-btn]:active{transform:scale(.97)}[data-np-btn="p"]:hover{color:#241F19}[data-np-f]:focus-visible{outline:2px solid #D9A54E;outline-offset:3px}@media (prefers-reduced-motion:reduce){.np-tide *{animation:none!important}}</style></helmet>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Página inicial — duas direções. Textos, datas e fotos são provisórios.</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Palco — hero com logo dourada sob feixe de luz, serifa clássica, seções alternando escuro e claro</div>
+<div class="dv-card" style="width:1280px;--np-display:{{ displayFont }};--np-accent:{{ accent }}">
+  <div id="np-top" data-screen-label="1a Hero" style="position:relative;min-height:780px;background:radial-gradient(ellipse at 75% 40%, #1d150e 0%, #110d09 50%, #0a0806 100%);color:#EDE9E3;display:flex;flex-direction:column;overflow:hidden">
+    {{ heroGlow }}
+    <div style="position:relative;z-index:1;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:24px 56px">
+      <a href="#np-top" data-np-f="1" aria-label="Ministério Nova Página — início" style="display:flex;align-items:center;gap:12px;color:var(--np-accent,#D9A54E)"><img src="assets/logo-mark-dourada.png" alt="" style="height:40px;width:auto;display:block"><span style="font:500 13px/1.15 Ubuntu,sans-serif">Ministério<br>Nova Página</span></a>
+      <nav style="display:flex;gap:34px;font-size:13px;letter-spacing:.12em;text-transform:uppercase"><a href="#a-sobre" data-np-f="1">Sobre</a><a href="#discografia" data-np-f="1">Discografia</a><a href="#a-videos" data-np-f="1">Vídeos</a><a href="#a-galeria" data-np-f="1">Galeria</a><a href="#agenda" data-np-f="1">Agenda</a></nav>
+      <div style="display:flex;gap:6px;justify-content:flex-end"><a href="#a-contato" aria-label="Instagram" data-np-soc="1" data-np-f="1" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.4-.6.7-.8 1.2-.2.4-.3 1-.4 2.1C2.7 9.8 2.7 10.2 2.7 12s0 2.2.1 3.4c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.4.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.4.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-3.4s0-2.2-.1-3.4c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4C15.5 4 15.1 4 12 4zm0 3.1a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 1.8a3.1 3.1 0 100 6.2 3.1 3.1 0 000-6.2zm5.1-2.1a1.1 1.1 0 110 2.3 1.1 1.1 0 010-2.3z"/></svg></a><a href="#a-contato" aria-label="Facebook" data-np-soc="1" data-np-f="1" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8.2h2.8l.4-3.2h-3.2V8.5c0-.9.3-1.6 1.6-1.6h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V22h3.4z"/></svg></a><a href="#a-contato" aria-label="YouTube" data-np-soc="1" data-np-f="1" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2c-.3-1-1-1.8-2-2.1C19.2 4.6 12 4.6 12 4.6s-7.2 0-9 .5c-1 .3-1.7 1.1-2 2.1C.6 9 .6 12 .6 12s0 3 .4 4.8c.3 1 1 1.8 2 2.1 1.8.5 9 .5 9 .5s7.2 0 9-.5c1-.3 1.7-1.1 2-2.1.4-1.8.4-4.8.4-4.8s0-3-.4-4.8zM9.7 15.1V8.9l6 3.1-6 3.1z"/></svg></a><a href="#a-contato" aria-label="Spotify" data-np-soc="1" data-np-f="1" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5a10.5 10.5 0 100 21 10.5 10.5 0 000-21zm4.8 15.2c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.3-2.9c-.2.4-.7.5-1.1.3-2.8-1.7-7.1-2.2-10.5-1.2-.4.1-.9-.1-1-.6-.1-.4.1-.9.6-1 3.8-1.2 8.6-.6 11.8 1.4.3.2.5.7.2 1.1zm.1-3c-3.4-2-9-2.2-12.2-1.2-.5.2-1.1-.1-1.2-.6-.2-.5.1-1.1.6-1.2 3.7-1.1 9.9-.9 13.8 1.4.5.3.6.9.4 1.3-.3.5-.9.6-1.4.3z"/></svg></a></div>
+    </div>
+    <div style="position:relative;z-index:1;flex:1;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:48px;align-items:center;padding:40px 56px 64px">
+      <div>
+        <h1 style="margin:0;font:400 86px/1.02 var(--np-display,'Cormorant Garamond',serif);letter-spacing:-.01em;text-wrap:balance"><span data-np-enter="0" style="display:block;white-space:nowrap">Cada canção, uma</span><span data-np-enter="1" style="display:block"><em style="position:relative;display:inline-block;font-style:italic;color:#EDE9E3;line-height:inherit">nova página<span aria-hidden="true" data-np-lit="1050" style="position:absolute;left:0;top:0;right:0;bottom:0;white-space:nowrap;line-height:inherit;color:var(--np-accent,#D9A54E)">nova página</span></em>.</span></h1>
+        <p data-np-enter="2" style="margin:32px 0 0;max-width:48ch;font-size:18px;line-height:1.6;font-weight:400;color:rgba(237,233,227,.85);text-wrap:pretty">Gravações, letras, vídeos e a trajetória do Ministério Nova Página, reunidos em um só lugar.</p>
+        <div data-np-enter="3" style="display:flex;gap:14px;margin-top:44px"><a href="#discografia" data-np-btn="p" data-np-f="1" style="display:inline-flex;align-items:center;justify-content:center;background:var(--np-accent,#D9A54E);color:#241F19;padding:16px 30px;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:background-color .2s ease,color .2s ease,transform .16s cubic-bezier(.23,1,.32,1)">Ouvir agora</a><a href="#agenda" data-np-btn="s" data-np-f="1" style="display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(217,165,78,.4);color:#EDE9E3;padding:16px 30px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;transition:border-color .2s ease,color .2s ease,transform .16s cubic-bezier(.23,1,.32,1)">Próximos encontros →</a></div>
+      </div>
+      <div style="display:flex;justify-content:center"><img data-np-logo="1" src="assets/logo-completa-dourada.png" alt="Ministério Nova Página" style="width:100%;max-width:272px;height:auto;display:block"></div>
+    </div>
+    <div data-np-enter="5" style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px;margin:0 56px;padding:22px 0 28px;border-top:1px solid rgba(217,165,78,.25)">
+      <div style="display:flex;align-items:center;gap:28px"><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font:400 28px/1 var(--np-display,'Cormorant Garamond',serif);color:var(--np-accent,#D9A54E)">[ANOS]</span><span style="font-size:14px;color:rgba(237,233,227,.85)">anos de caminhada</span></div><div style="width:1px;height:28px;background:rgba(217,165,78,.4);flex:none"></div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font:400 28px/1 var(--np-display,'Cormorant Garamond',serif);color:var(--np-accent,#D9A54E)">[N]</span><span style="font-size:14px;color:rgba(237,233,227,.85)">canções</span></div><div style="width:1px;height:28px;background:rgba(217,165,78,.4);flex:none"></div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font:400 28px/1 var(--np-display,'Cormorant Garamond',serif);color:var(--np-accent,#D9A54E)">[N]</span><span style="font-size:14px;color:rgba(237,233,227,.85)">álbuns</span></div></div>
+      <a href="#a-sobre" data-np-f="1" style="display:flex;align-items:center;gap:14px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(237,233,227,.85)">Role para conhecer<span style="position:relative;display:block;width:1px;height:36px;background:rgba(217,165,78,.2);overflow:hidden"><span data-np-scroll="1" style="position:absolute;left:0;top:0;width:1px;height:100%;background:var(--np-accent,#D9A54E);transform-origin:top"></span></span></a>
+    </div>
+  </div>
+
+  <div id="a-sobre" data-screen-label="1a Sobre" style="background:#EDE9E3;color:#241F19;padding:120px 56px 112px">
+    <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:72px;align-items:start">
+      <div style="aspect-ratio:4/3;overflow:hidden"><img src="assets/foto-grupo.png" alt="Integrantes do Ministério Nova Página" style="width:100%;height:calc(100% + 6px);margin-top:-6px;object-fit:cover;object-position:center 40%;display:block"></div>
+      <div>
+        <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7d5a1c;margin-bottom:20px">Sobre nós</div>
+        <h2 style="margin:0 0 32px;font:400 60px/1.05 var(--np-display,'Cormorant Garamond',serif);text-wrap:balance">Jovens, um chamado, uma <em style="color:#8a6420">nova página</em>.</h2>
+        <p style="margin:0;max-width:52ch;font-size:16px;line-height:1.6;font-weight:400;color:#241F19;text-wrap:pretty">O Ministério Nova Página é um grupo musical gospel de jovens de Sorriso, Mato Grosso, ligado à Igreja Adventista do Sétimo Dia Central. Nasceu em 2025 para levar a mensagem da volta de Jesus além das igrejas, a públicos e comunidades diferentes.</p>
+        <blockquote style="margin:32px 0 0;padding:4px 0 4px 24px;border-left:2px solid #D9A54E;font:italic 400 30px/1.3 var(--np-display,'Cormorant Garamond',serif);color:#241F19;text-wrap:balance">Em Cristo, toda vida pode ter uma <em style="color:#8a6420">nova página</em>.</blockquote>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:32px;font-size:15px;color:#2e2822"><span>Sorriso/MT</span><span aria-hidden="true" style="color:#D9A54E">·</span><span>Desde 2025</span><span aria-hidden="true" style="color:#D9A54E">·</span><span>12 vozes</span></div>
+        <a href="Nossa Historia.dc.html" data-np-f="1" data-np-link="1" style="display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#7d5a1c;border-bottom:1px solid #D9A54E;padding-bottom:4px">Conheça nossa história <span data-np-arrow="1" style="display:inline-block;transition:transform .2s cubic-bezier(.23,1,.32,1)">→</span></a>
+      </div>
+    </div>
+    <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7d5a1c;margin-top:72px">Nossa trajetória</div>
+    <div style="display:grid;grid-template-columns:96px minmax(0,1fr);margin-top:8px;height:150px">
+      <div style="padding-top:66px;font:italic 400 30px/1 var(--np-display,'Cormorant Garamond',serif);color:#241F19">2025</div>
+      <div style="position:relative">
+        <div data-np-draw="1" style="position:absolute;left:0;right:0;top:80px;height:1px;background:#D9A54E;transform-origin:left center"></div>
+        <div style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr))">
+          <sc-for list="{{ tlPoints }}" as="p" hint-placeholder-count="7"><div data-np-pt="{{ $index }}" data-np-ptw="1" data-np-f="1" tabIndex="0" role="button" aria-label="{{ p.aria }}" onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" onFocus="{{ p.onEnter }}" onBlur="{{ p.onLeave }}" onClick="{{ p.onClick }}" style="position:relative;cursor:pointer;height:150px;outline-offset:4px">
+            <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}"><div role="tooltip" style="position:absolute;bottom:84px;left:0;width:230px;background:#241F19;color:#EDE9E3;padding:14px 16px;font-size:14px;line-height:1.5;z-index:3;box-shadow:0 12px 28px rgba(36,31,25,.25)">{{ p.text }}</div></sc-if>
+            <div data-np-dot="1" style="position:absolute;top:73px;left:0;width:13px;height:13px;border-radius:50%;box-sizing:border-box;border:1.5px solid #D9A54E;background:{{ p.dotBg }};transition:transform .2s cubic-bezier(.23,1,.32,1)"></div>
+            <div style="position:absolute;top:102px;left:0;right:12px"><div style="font:12px 'Ubuntu Mono',monospace;color:#6e4f17">{{ p.date }}</div><div style="font-size:14px;line-height:1.3;margin-top:4px;color:#241F19">{{ p.title }}</div></div>
+          </div></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="discografia" data-screen-label="1a Discografia" style="background:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(240,190,90,.16) 0%, transparent 100%), radial-gradient(ellipse at 75% 40%, #1d150e 0%, #110d09 50%, #0a0806 100%);color:#EDE9E3;padding:clamp(64px,9vw,120px) clamp(20px,4.4vw,56px)">
+    <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--np-accent,#D9A54E);margin-bottom:20px">Discografia</div>
+    <div style="font:400 clamp(40px,5vw,60px)/1.05 var(--np-display,'Cormorant Garamond',serif);margin-bottom:48px">Ouça, leia, <em style="color:#E8C27A">relembre</em></div>
+    <div>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:32px;padding:0 0 8px">
+        <div style="flex:none;width:clamp(140px,16vw,200px);height:clamp(140px,16vw,200px);border-radius:8px;background:radial-gradient(circle at 50% 20%,rgba(240,190,90,.45),#1d150e 60%,#0a0806 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 16px 40px rgba(0,0,0,.5)"><img src="assets/logo-completa-clara.png" alt="" style="height:150px;width:auto;display:block"></div>
+        <div style="flex:1 1 320px;min-width:0">
+          <div style="font-size:13px;font-weight:500;color:#EFD9A8">Artista</div>
+          <div style="font:500 clamp(36px,5vw,64px)/1.05 Ubuntu,sans-serif;letter-spacing:-.03em;margin:8px 0 14px;text-wrap:balance">Ministério Nova Página</div>
+          <div style="font-size:14px;color:#EFD9A8">{{ songCount }} músicas publicadas · Sorriso, MT</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px;padding:28px 0;margin-bottom:16px;border-bottom:1px solid rgba(237,233,227,.15)">
+        <button onClick="{{ togglePlay }}" style="width:56px;height:56px;border-radius:50%;border:none;background:var(--np-accent,#D9A54E);color:#241F19;font-size:18px;cursor:pointer" style-hover="transform:scale(1.05)">{{ playIcon }}</button>
+        <a href="{{ spotifyUrl }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;border:1px solid #87816E;border-radius:999px;padding:11px 20px;font-size:14px" style-hover="border-color:#EDE9E3;color:#EDE9E3"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5a10.5 10.5 0 100 21 10.5 10.5 0 000-21zm4.8 15.2c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.3-2.9c-.2.4-.7.5-1.1.3-2.8-1.7-7.1-2.2-10.5-1.2-.4.1-.9-.1-1-.6-.1-.4.1-.9.6-1 3.8-1.2 8.6-.6 11.8 1.4.3.2.5.7.2 1.1zm.1-3c-3.4-2-9-2.2-12.2-1.2-.5.2-1.1-.1-1.2-.6-.2-.5.1-1.1.6-1.2 3.7-1.1 9.9-.9 13.8 1.4.5.3.6.9.4 1.3-.3.5-.9.6-1.4.3z"></path></svg>Seguir no Spotify</a>
+        <div style="margin-left:auto;display:flex;gap:8px"><sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="2"><button onClick="{{ tab.onClick }}" style="font:14px Ubuntu,sans-serif;padding:9px 18px;border:none;border-radius:999px;cursor:pointer;background:{{ tab.bgDark }};color:{{ tab.fgDark }}">{{ tab.label }}</button></sc-for></div>
+      </div>
+      <sc-if value="{{ isMusic }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:8px 0 0">
+          <div style="font:500 28px Ubuntu,sans-serif;letter-spacing:-.02em;margin-bottom:24px">Lançamentos</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:clamp(12px,2vw,24px)">
+            <sc-for list="{{ songs }}" as="s" hint-placeholder-count="2"><div onClick="{{ s.onClick }}" style="padding:14px;border-radius:8px;cursor:pointer;background:{{ s.bg }}" style-hover="background:rgba(237,233,227,.06)">
+              <div style="position:relative;aspect-ratio:1/1;border-radius:6px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.45);background:{{ s.cover }}">
+                <div style="position:absolute;right:10px;bottom:10px;width:48px;height:48px;border-radius:50%;background:var(--np-accent,#D9A54E);color:#241F19;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 6px 16px rgba(0,0,0,.4)">{{ s.playMark }}</div>
+              </div>
+              <div style="font-size:17px;font-weight:500;margin-top:14px;color:{{ s.color }}">{{ s.title }}</div>
+              <div style="font-size:14px;color:#a8a191;margin-top:4px">{{ s.year }} • Single</div>
+              <a href="{{ spotifyUrl }}" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-size:13px;color:var(--np-accent,#D9A54E)" style-hover="color:#EDE9E3">Ouvir no Spotify →</a>
+            </div></sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isLyrics }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+          <div style="border-right:1px solid rgba(237,233,227,.15);padding:16px 0"><sc-for list="{{ songs }}" as="s" hint-placeholder-count="2"><div onClick="{{ s.onClick }}" style="padding:16px 24px 16px 0;cursor:pointer;font-size:16px;color:{{ s.color }};background:{{ s.bg }}" style-hover="background:rgba(237,233,227,.06)">{{ s.title }}</div></sc-for></div>
+          <div style="padding:clamp(24px,4vw,40px) clamp(24px,4vw,56px);min-height:320px">
+            <div style="font:400 40px/1.1 var(--np-display,'Cormorant Garamond',serif);margin-bottom:6px">{{ current.title }}</div>
+            <div style="font-size:13px;color:var(--np-accent,#D9A54E);margin-bottom:28px">Lançada em {{ current.date }}</div>
+            <div style="font-size:18px;line-height:1.8;font-weight:300;color:#EFD9A8;white-space:pre-line">{{ current.lyrics }}</div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <div id="a-videos" data-screen-label="1a Vídeos" style="background:#EFD9A8;color:#241F19;padding:120px 56px">
+    <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7d5a1c;margin-bottom:20px">Vídeos</div>
+    <div style="font:400 60px/1.05 var(--np-display,'Cormorant Garamond',serif);margin-bottom:48px">Apresentações</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px">
+      <div><iframe src="https://www.youtube-nocookie.com/embed/G4Gm1hUOKLo?rel=0" title="Eu Vou Falar — Ministério Nova Página" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="width:100%;height:440px;border:0;display:block;background:#241F19"></iframe><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:16px"><div style="font:400 28px var(--np-display,'Cormorant Garamond',serif)">Eu Vou Falar — clipe oficial</div><a href="https://www.youtube.com/watch?v=G4Gm1hUOKLo" target="_blank" rel="noopener" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid #241F19;padding-bottom:3px">Ver no YouTube →</a></div></div>
+      <div style="display:flex;flex-direction:column;gap:24px"><sc-for list="{{ videos }}" as="v" hint-placeholder-count="2"><div><div style="height:186px;background:repeating-linear-gradient(135deg,#2e2822 0 14px,#29231d 14px 28px);display:flex;align-items:center;justify-content:center;font:13px 'Ubuntu Mono',monospace;color:var(--np-accent,#D9A54E)">vídeo</div><div style="font-size:15px;margin-top:10px">{{ v }}</div></div></sc-for></div>
+    </div>
+  </div>
+
+  <div id="a-galeria" data-screen-label="1a Galeria" style="background:#EDE9E3;color:#241F19;padding:120px 56px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px"><div><div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7d5a1c;margin-bottom:20px">Galeria</div><div style="font:400 60px/1.05 var(--np-display,'Cormorant Garamond',serif)">Fotos <em>históricas</em></div></div><a href="#a-galeria" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid #241F19;padding-bottom:4px">Ver todas →</a></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:16px;font:13px 'Ubuntu Mono',monospace;color:#5f5a4b">
+      <div style="grid-row:span 2;background:repeating-linear-gradient(135deg,#e6cf9e 0 14px,#ecd8ad 14px 28px);display:flex;align-items:center;justify-content:center">foto</div>
+      <div style="grid-column:span 2;background:repeating-linear-gradient(135deg,#e6cf9e 0 14px,#ecd8ad 14px 28px);display:flex;align-items:center;justify-content:center">foto</div>
+      <div style="background:repeating-linear-gradient(135deg,#e6cf9e 0 14px,#ecd8ad 14px 28px);display:flex;align-items:center;justify-content:center">foto</div>
+      <div style="background:repeating-linear-gradient(135deg,#e6cf9e 0 14px,#ecd8ad 14px 28px);display:flex;align-items:center;justify-content:center">foto</div>
+      <div style="grid-column:span 2;background:repeating-linear-gradient(135deg,#e6cf9e 0 14px,#ecd8ad 14px 28px);display:flex;align-items:center;justify-content:center">foto</div>
+    </div>
+  </div>
+
+  <div id="agenda" data-screen-label="1a Agenda" style="background:#87816E;color:#241F19;padding:120px 56px;display:grid;grid-template-columns:360px 1fr;gap:80px">
+    <div><div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px">Agenda</div><div style="font:400 60px/1.05 var(--np-display,'Cormorant Garamond',serif);color:#EDE9E3">Próximas apresentações</div></div>
+    <div><sc-for list="{{ agenda }}" as="a" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:110px 1fr auto;gap:28px;align-items:center;padding:26px 0;border-top:1px solid #241F19"><div style="font:400 44px/1 var(--np-display,'Cormorant Garamond',serif)">{{ a.day }}<span style="font:13px Ubuntu,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-left:8px">{{ a.month }}</span></div><div><div style="font-size:19px;font-weight:500">{{ a.title }}</div><div style="font-size:15px;margin-top:4px">{{ a.place }}</div></div><a href="#a-contato" style="border:1px solid #241F19;padding:11px 20px;font-size:12px;letter-spacing:.12em;text-transform:uppercase" style-hover="background:#241F19;color:#EDE9E3">Detalhes</a></div></sc-for></div>
+  </div>
+
+  <div id="a-contato" data-screen-label="1a Contato" style="background:#241F19;color:#EDE9E3;padding:120px 56px 48px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px">
+      <div><div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--np-accent,#D9A54E);margin-bottom:20px">Contato</div><div style="font:400 72px/1 var(--np-display,'Cormorant Garamond',serif)">Convide o <em style="color:#EFD9A8">ministério</em></div><p style="font-size:17px;line-height:1.6;font-weight:300;max-width:420px;margin:28px 0 0">Para apresentações, cultos e eventos, envie os dados e retornaremos o contato.</p></div>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <input placeholder="Nome" style="background:none;border:none;border-bottom:1px solid #87816E;color:#EDE9E3;font:17px Ubuntu,sans-serif;padding:14px 0;outline:none">
+        <input placeholder="E-mail ou telefone" style="background:none;border:none;border-bottom:1px solid #87816E;color:#EDE9E3;font:17px Ubuntu,sans-serif;padding:14px 0;outline:none">
+        <input placeholder="Data e local do evento" style="background:none;border:none;border-bottom:1px solid #87816E;color:#EDE9E3;font:17px Ubuntu,sans-serif;padding:14px 0;outline:none">
+        <textarea placeholder="Mensagem" rows="3" style="background:none;border:none;border-bottom:1px solid #87816E;color:#EDE9E3;font:17px Ubuntu,sans-serif;padding:14px 0;outline:none;resize:none"></textarea>
+        <button style="align-self:flex-start;background:var(--np-accent,#D9A54E);color:#241F19;border:none;padding:16px 34px;font:13px Ubuntu,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;margin-top:8px">Enviar convite</button>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:110px;padding-top:28px;border-top:1px solid #4a443a;font-size:13px"><div style="display:flex;align-items:center;gap:14px"><div style="width:34px;height:40px;background:url(assets/logo-mark-white.png) center/contain no-repeat"></div>Ministério Nova Página</div><div style="display:flex;gap:28px;letter-spacing:.12em;text-transform:uppercase"><a href="#a-contato">Instagram</a><a href="#a-contato">YouTube</a><a href="#a-contato">Spotify</a><a href="#a-contato">WhatsApp</a></div></div>
+  </div>
+</div></div>
+
+<div class="dv-opt" id="1a-mobile"><div class="dv-olabel"><a class="dv-oid" href="#1a-mobile">1a · mobile</a>Hero em 375 px</div>
+<div class="dv-card" style="width:375px;--np-display:{{ displayFont }};--np-accent:{{ accent }}">
+  <div data-screen-label="1a Hero mobile" style="position:relative;height:812px;background:radial-gradient(ellipse at 50% 22%, #1d150e 0%, #110d09 50%, #0a0806 100%);color:#EDE9E3;display:flex;flex-direction:column;overflow:hidden">
+    {{ heroGlowM }}
+    <div style="position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 12px 14px 20px"><a href="#np-top" data-np-f="1" aria-label="Ministério Nova Página — início" style="display:flex;align-items:center;gap:12px;color:var(--np-accent,#D9A54E)"><img src="assets/logo-mark-dourada.png" alt="" style="height:30px;width:auto;display:block"><span style="font:500 12px/1.15 Ubuntu,sans-serif">Ministério<br>Nova Página</span></a><button onClick="{{ toggleMenu }}" aria-label="Abrir menu" aria-expanded="{{ menuOpen }}" data-np-f="1" style="width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:none;border:none;cursor:pointer;padding:0"><span style="display:block;width:22px;height:1.5px;background:#EDE9E3"></span><span style="display:block;width:22px;height:1.5px;background:#EDE9E3"></span><span style="display:block;width:14px;height:1.5px;background:#EDE9E3;align-self:center;margin-left:8px"></span></button></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;padding:4px 20px 0">
+      <img data-np-logo="1" src="assets/logo-completa-dourada.png" alt="Ministério Nova Página" style="width:104px;height:auto;display:block;margin:4px auto 28px">
+      <h1 style="margin:0;font:400 46px/1.02 var(--np-display,'Cormorant Garamond',serif);letter-spacing:-.01em;text-wrap:balance"><span data-np-enter="0" style="display:block;white-space:nowrap">Cada canção, uma</span><span data-np-enter="1" style="display:block"><em style="position:relative;display:inline-block;font-style:italic;color:#EDE9E3;line-height:inherit">nova página<span aria-hidden="true" data-np-lit="1050" style="position:absolute;left:0;top:0;right:0;bottom:0;white-space:nowrap;line-height:inherit;color:var(--np-accent,#D9A54E)">nova página</span></em>.</span></h1>
+      <p data-np-enter="2" style="margin:18px 0 0;max-width:48ch;font-size:16px;line-height:1.6;font-weight:400;color:rgba(237,233,227,.85);text-wrap:pretty">Gravações, letras, vídeos e a trajetória do Ministério Nova Página, reunidos em um só lugar.</p>
+      <div data-np-enter="3" style="display:flex;flex-direction:column;gap:12px;margin-top:28px"><a href="#discografia" data-np-btn="p" data-np-f="1" style="display:inline-flex;align-items:center;justify-content:center;background:var(--np-accent,#D9A54E);color:#241F19;padding:16px 30px;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:background-color .2s ease,color .2s ease,transform .16s cubic-bezier(.23,1,.32,1);width:100%;min-height:48px;box-sizing:border-box;padding:14px 20px">Ouvir agora</a><a href="#agenda" data-np-btn="s" data-np-f="1" style="display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(217,165,78,.4);color:#EDE9E3;padding:16px 30px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;transition:border-color .2s ease,color .2s ease,transform .16s cubic-bezier(.23,1,.32,1);width:100%;min-height:48px;box-sizing:border-box;padding:14px 20px">Próximos encontros →</a></div>
+    </div>
+    <div data-np-enter="5" style="position:relative;z-index:1;margin:auto 20px 0;padding:16px 0 18px;border-top:1px solid rgba(217,165,78,.25);display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font:400 20px/1 var(--np-display,'Cormorant Garamond',serif);color:var(--np-accent,#D9A54E)">[ANOS]</span><span style="font-size:13px;color:rgba(237,233,227,.85)">anos</span></div><div style="width:1px;height:22px;background:rgba(217,165,78,.4);flex:none"></div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font:400 20px/1 var(--np-display,'Cormorant Garamond',serif);color:var(--np-accent,#D9A54E)">[N]</span><span style="font-size:13px;color:rgba(237,233,227,.85)">canções</span></div><div style="width:1px;height:22px;background:rgba(217,165,78,.4);flex:none"></div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font:400 20px/1 var(--np-display,'Cormorant Garamond',serif);color:var(--np-accent,#D9A54E)">[N]</span><span style="font-size:13px;color:rgba(237,233,227,.85)">álbuns</span></div>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:5;background:rgba(10,8,6,.97);display:flex;flex-direction:column;padding:14px 12px 28px 20px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><a href="#np-top" data-np-f="1" aria-label="Ministério Nova Página — início" style="display:flex;align-items:center;gap:12px;color:var(--np-accent,#D9A54E)"><img src="assets/logo-mark-dourada.png" alt="" style="height:30px;width:auto;display:block"><span style="font:500 12px/1.15 Ubuntu,sans-serif">Ministério<br>Nova Página</span></a><button onClick="{{ toggleMenu }}" aria-label="Fechar menu" data-np-f="1" style="width:44px;height:44px;background:none;border:none;color:#EDE9E3;font-size:28px;line-height:1;cursor:pointer">×</button></div>
+        <nav onClick="{{ closeMenu }}" style="display:flex;flex-direction:column;margin-top:48px;font:400 36px/1 var(--np-display,'Cormorant Garamond',serif)"><a href="#a-sobre" data-np-f="1" style="padding:14px 0;border-bottom:1px solid rgba(217,165,78,.15)">Sobre</a><a href="#discografia" data-np-f="1" style="padding:14px 0;border-bottom:1px solid rgba(217,165,78,.15)">Discografia</a><a href="#a-videos" data-np-f="1" style="padding:14px 0;border-bottom:1px solid rgba(217,165,78,.15)">Vídeos</a><a href="#a-galeria" data-np-f="1" style="padding:14px 0;border-bottom:1px solid rgba(217,165,78,.15)">Galeria</a><a href="#agenda" data-np-f="1" style="padding:14px 0;border-bottom:1px solid rgba(217,165,78,.15)">Agenda</a></nav>
+        <div style="margin-top:auto;display:flex;gap:8px"><a href="#a-contato" aria-label="Instagram" data-np-soc="1" data-np-f="1" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.4-.6.7-.8 1.2-.2.4-.3 1-.4 2.1C2.7 9.8 2.7 10.2 2.7 12s0 2.2.1 3.4c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.4.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.4.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-3.4s0-2.2-.1-3.4c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4C15.5 4 15.1 4 12 4zm0 3.1a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 1.8a3.1 3.1 0 100 6.2 3.1 3.1 0 000-6.2zm5.1-2.1a1.1 1.1 0 110 2.3 1.1 1.1 0 010-2.3z"/></svg></a><a href="#a-contato" aria-label="Facebook" data-np-soc="1" data-np-f="1" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8.2h2.8l.4-3.2h-3.2V8.5c0-.9.3-1.6 1.6-1.6h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.2h2.8V22h3.4z"/></svg></a><a href="#a-contato" aria-label="YouTube" data-np-soc="1" data-np-f="1" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2c-.3-1-1-1.8-2-2.1C19.2 4.6 12 4.6 12 4.6s-7.2 0-9 .5c-1 .3-1.7 1.1-2 2.1C.6 9 .6 12 .6 12s0 3 .4 4.8c.3 1 1 1.8 2 2.1 1.8.5 9 .5 9 .5s7.2 0 9-.5c1-.3 1.7-1.1 2-2.1.4-1.8.4-4.8.4-4.8s0-3-.4-4.8zM9.7 15.1V8.9l6 3.1-6 3.1z"/></svg></a><a href="#a-contato" aria-label="Spotify" data-np-soc="1" data-np-f="1" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--np-accent,#D9A54E);opacity:.6;transition:opacity .2s ease"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5a10.5 10.5 0 100 21 10.5 10.5 0 000-21zm4.8 15.2c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.3-2.9c-.2.4-.7.5-1.1.3-2.8-1.7-7.1-2.2-10.5-1.2-.4.1-.9-.1-1-.6-.1-.4.1-.9.6-1 3.8-1.2 8.6-.6 11.8 1.4.3.2.5.7.2 1.1zm.1-3c-3.4-2-9-2.2-12.2-1.2-.5.2-1.1-.1-1.2-.6-.2-.5.1-1.1.6-1.2 3.7-1.1 9.9-.9 13.8 1.4.5.3.6.9.4 1.3-.3.5-.9.6-1.4.3z"/></svg></a></div>
+      </div>
+    </sc-if>
+  </div>
+</div></div>
+
+<div class="dv-opt" id="1a-sobre-mobile"><div class="dv-olabel"><a class="dv-oid" href="#1a-sobre-mobile">1a · mobile</a>Sobre em 375 px</div>
+<div class="dv-card" style="width:375px;--np-display:{{ displayFont }};--np-accent:{{ accent }}">
+  <div data-screen-label="1a Sobre mobile" style="background:#EDE9E3;color:#241F19;padding:64px 20px 56px">
+    <div style="aspect-ratio:4/3;overflow:hidden;margin-bottom:32px"><img src="assets/foto-grupo.png" alt="Integrantes do Ministério Nova Página" style="width:100%;height:calc(100% + 6px);margin-top:-6px;object-fit:cover;object-position:center 40%;display:block"></div>
+    <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7d5a1c;margin-bottom:20px">Sobre nós</div>
+        <h2 style="margin:0 0 24px;font:400 38px/1.05 var(--np-display,'Cormorant Garamond',serif);text-wrap:balance">Jovens, um chamado, uma <em style="color:#8a6420">nova página</em>.</h2>
+        <p style="margin:0;max-width:52ch;font-size:16px;line-height:1.6;font-weight:400;color:#241F19;text-wrap:pretty">O Ministério Nova Página é um grupo musical gospel de jovens de Sorriso, Mato Grosso, ligado à Igreja Adventista do Sétimo Dia Central. Nasceu em 2025 para levar a mensagem da volta de Jesus além das igrejas, a públicos e comunidades diferentes.</p>
+        <blockquote style="margin:24px 0 0;padding:4px 0 4px 24px;border-left:2px solid #D9A54E;font:italic 400 24px/1.3 var(--np-display,'Cormorant Garamond',serif);color:#241F19;text-wrap:balance">Em Cristo, toda vida pode ter uma <em style="color:#8a6420">nova página</em>.</blockquote>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:24px;font-size:15px;color:#2e2822"><span>Sorriso/MT</span><span aria-hidden="true" style="color:#D9A54E">·</span><span>Desde 2025</span><span aria-hidden="true" style="color:#D9A54E">·</span><span>12 vozes</span></div>
+        <a href="Nossa Historia.dc.html" data-np-f="1" data-np-link="1" style="display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#7d5a1c;border-bottom:1px solid #D9A54E;padding-bottom:4px">Conheça nossa história <span data-np-arrow="1" style="display:inline-block;transition:transform .2s cubic-bezier(.23,1,.32,1)">→</span></a>
+    <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7d5a1c;margin-top:56px">Nossa trajetória</div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:16px"><span style="font:italic 400 26px/1 var(--np-display,'Cormorant Garamond',serif)">2025</span><span data-np-draw="1" style="flex:1;height:1px;background:#D9A54E;transform-origin:left center"></span></div>
+    <div style="display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:20px -20px 0;padding:0 20px 8px;scroll-padding:0 20px;scrollbar-width:none">
+      <sc-for list="{{ tlPoints }}" as="p" hint-placeholder-count="3"><div data-np-pt="{{ $index }}" style="flex:0 0 78%;scroll-snap-align:start;box-sizing:border-box;border:1px solid rgba(36,31,25,.15);padding:18px">
+        <div style="display:flex;align-items:center;gap:10px"><span style="width:11px;height:11px;border-radius:50%;box-sizing:border-box;border:1.5px solid #D9A54E;background:{{ p.dotBg }}"></span><span style="font:12px 'Ubuntu Mono',monospace;color:#6e4f17">{{ p.date }}</span></div>
+        <div style="font-size:14px;font-weight:500;margin-top:12px">{{ p.title }}</div>
+        <p style="margin:8px 0 0;font-size:16px;line-height:1.55;color:#4a443a">{{ p.text }}</p>
+      </div></sc-for>
+    </div>
+  </div>
+</div></div>
+
+</div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroLight&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Feixe dourado&quot;,&quot;Brilho difuso&quot;,&quot;Estático&quot;],&quot;default&quot;:&quot;Feixe dourado&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Atmosfera&quot;},&quot;displayType&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Serifa clássica&quot;,&quot;Geométrica&quot;,&quot;Arquivo (mono)&quot;],&quot;default&quot;:&quot;Serifa clássica&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tipografia&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#D9A54E&quot;,&quot;#BE8F6E&quot;,&quot;#A9A27F&quot;],&quot;default&quot;:&quot;#D9A54E&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Atmosfera&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 0, cur: 0, playing: false, tl: false, menu: false, tlHover: null };
+  componentWillUnmount() { if (this._io) this._io.disconnect(); }
+  componentDidMount() {
+    const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ease = 'cubic-bezier(0.23, 1, 0.32, 1)';
+    const fade = [{ opacity: 0 }, { opacity: 1 }];
+    document.querySelectorAll('[data-np-enter]').forEach(el => el.animate(rm ? fade : [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 600, delay: (+el.dataset.npEnter) * 60, easing: ease, fill: 'backwards' }));
+    document.querySelectorAll('[data-np-lit]').forEach(el => el.animate(fade, { duration: 700, delay: +el.dataset.npLit, easing: ease, fill: 'backwards' }));
+    document.querySelectorAll('[data-np-logo]').forEach(el => el.animate(rm ? fade : [{ opacity: 0, transform: 'scale(0.97)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 900, delay: 180, easing: ease, fill: 'backwards' }));
+    const io = new IntersectionObserver(ents => ents.forEach(en => {
+      if (!en.isIntersecting) return; io.unobserve(en.target); const el = en.target;
+      if (el.dataset.npDraw) { el.style.transform = ''; el.style.opacity = ''; el.animate(rm ? fade : [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 900, easing: ease, fill: 'backwards' }); }
+      else { el.style.opacity = ''; el.style.transform = ''; el.animate(rm ? fade : [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 500, delay: 250 + (+el.dataset.npPt || 0) * 60, easing: ease, fill: 'backwards' }); }
+    }), { threshold: .25 });
+    this._io = io;
+    document.querySelectorAll('[data-np-draw],[data-np-pt]').forEach(el => { el.style.opacity = ''; el.style.transform = ''; io.observe(el); });
+    if (!rm) document.querySelectorAll('[data-np-scroll]').forEach(el => el.animate([{ transform: 'scaleY(0)', opacity: 0 }, { transform: 'scaleY(1)', opacity: 1, offset: .55 }, { transform: 'scaleY(1)', opacity: 0 }], { duration: 2400, iterations: Infinity, easing: 'ease-in-out' }));
+  }
+  renderVals() {
+    const { tab, cur, playing } = this.state;
+    const spotifyUrl = 'https://open.spotify.com/search/Minist%C3%A9rio%20Nova%20P%C3%A1gina';
+    const defs = [{ label: 'Músicas' }, { label: 'Letras' }];
+    const songData = [
+      { title: 'Eu Vou Falar', date: '27 out 2025', cover: 'url(assets/foto-grupo.png) center 38%/cover no-repeat' },
+      { title: 'Evangelho', date: '17 dez 2025', cover: 'url(assets/capa-evangelho.png) center/cover no-repeat' }
+    ];
+    const pad = n => String(n).padStart(2, '0');
+    const tabs = defs.map((d, i) => ({
+      label: d.label, n: pad(i + 1), count: i === 0 ? String(songData.length) : String(songData.length),
+      onClick: () => this.setState({ tab: i }),
+      bgDark: i === tab ? '#EDE9E3' : 'rgba(237,233,227,.1)', fgDark: i === tab ? '#241F19' : '#EDE9E3',
+      fgB: i === tab ? 'var(--np-accent,#D9A54E)' : '#EDE9E3'
+    }));
+    const songs = songData.map((s, i) => ({
+      ...s, meta: s.date, dur: '—', n: pad(i + 1), lyrics: '[Cole aqui a letra de "' + s.title + '".]',
+      mark: i === cur && playing ? '♪' : String(i + 1), year: '2025', playMark: i === cur && playing ? '❚❚' : '▶',
+      color: i === cur ? 'var(--np-accent,#D9A54E)' : '#EDE9E3', bg: i === cur ? 'rgba(237,233,227,.08)' : 'transparent',
+      onClick: () => this.setState(st => st.tab === 0 ? { cur: i, playing: st.cur === i ? !st.playing : true } : { cur: i })
+    }));
+    const items = songs.map((s, i) => ({ n: s.n, title: s.title, meta: s.date, dur: '', color: s.color, outline: i === cur ? '2px solid var(--np-accent,#D9A54E)' : 'none', onClick: s.onClick }));
+    const d = { cover: '' };
+    const e = React.createElement;
+    const light = this.props.heroLight ?? 'Feixe dourado';
+    const build = (X, k, poolBottom) => {
+      const still = light === 'Estático', soft = light === 'Brilho difuso';
+      const anim = v => still ? 'none' : v;
+      const px = n => Math.round(n * k) + 'px';
+      let s = 7; const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+      const dust = still ? [] : Array.from({ length: 40 }, (_, i) => {
+        const t = 8 + r() * 80, spread = (30 + t * 2.6) * k, z = 1 + r() * 2.4, o = (.3 + r() * .6).toFixed(2);
+        return e('div', { key: i, style: { position: 'absolute', left: 'calc(' + X + ' + ' + ((r() * 2 - 1) * spread).toFixed(0) + 'px)', top: t + '%', width: z + 'px', height: z + 'px', borderRadius: '50%', background: '#FBE2A8', boxShadow: '0 0 6px rgba(251,226,168,.9)', '--o': o, opacity: 0, animation: 'npDust ' + (9 + r() * 10).toFixed(1) + 's linear ' + (-r() * 18).toFixed(1) + 's infinite' } });
+      });
+      return e('div', { className: 'np-tide', 'aria-hidden': true, style: { position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' } },
+        e('div', { style: { position: 'absolute', left: X, bottom: poolBottom, width: px(620), height: px(150), transform: 'translateX(-50%)', borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(240,190,90,.45) 0%, rgba(200,140,60,.18) 45%, transparent 72%)', filter: 'blur(8px)', animation: anim('npPool 7s ease-in-out infinite') } }),
+        soft ? e('div', { style: { position: 'absolute', left: X, top: '45%', width: px(760), height: px(760), transform: 'translate(-50%,-50%)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(240,190,90,.38) 0%, rgba(200,140,60,.16) 35%, transparent 68%)', filter: 'blur(20px)', animation: anim('npBreathe 8s ease-in-out infinite') } }) : null,
+        soft ? null : e('div', { style: { position: 'absolute', inset: 0, filter: 'blur(26px)', animation: anim('npBreathe 8s ease-in-out infinite') } },
+          e('div', { style: { position: 'absolute', left: X, top: '-4%', width: px(640), height: '100%', transform: 'translateX(-50%)', clipPath: 'polygon(45% 0, 55% 0, 100% 100%, 0 100%)', background: 'linear-gradient(180deg, rgba(255,228,150,.85) 0%, rgba(240,190,100,.45) 25%, rgba(210,150,70,.22) 60%, rgba(180,120,50,.10) 100%)' } })
+        ),
+        soft ? null : e('div', { style: { position: 'absolute', left: X, top: px(-60), width: px(220), height: px(120), transform: 'translateX(-50%)', borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(255,240,200,.9) 0%, rgba(255,210,130,.4) 40%, transparent 70%)', filter: 'blur(6px)' } }),
+        ...dust
+      );
+    };
+    if (this._glowKey !== light) { this._glowKey = light; this._glow = build('75%', 1, '2%'); this._glowM = build('50%', .55, '62%'); }
+    const heroGlow = this._glow;
+    const FONTS = {"Serifa clássica":"'Cormorant Garamond',serif","Geométrica":"Ubuntu,sans-serif","Arquivo (mono)":"'Ubuntu Mono',monospace"};
+    const displayFont = FONTS[this.props.displayType] || FONTS['Serifa clássica'];
+    const accent = this.props.accent ?? '#D9A54E';
+    return {
+      tlPoints: [["30 ago","Início do projeto","Jovens com dons musicais se reuniram para dar vida a um novo projeto."],["5 out","Primeira apresentação","Em Nova Mutum (MT), o grupo subiu ao palco pela primeira vez."],["[  ]","Câmara Municipal de Sorriso","A convite da Câmara, o grupo levou uma mensagem especial e uma pauta importante a todos os presentes."],["[  ]","Gravação em estúdio","\"Eu Vou Falar\" foi gravada em estúdio na Betel Música e Artes, em Sorriso."],["[  ]","Nas plataformas digitais","Está no YouTube, Spotify, Deezer, Amazon Music e nas principais plataformas digitais."],["[  ]","Primeiro clipe","Lançamento do clipe de \"Eu Vou Falar\"."],["[  ]","Natal Luz","Com apoio da Secretaria de Cultura de Sorriso, o grupo se apresentou no Natal Luz."]].map(([date, title, text], i, arr) => ({ date, title, text, aria: date + ' — ' + title, open: this.state.tlHover === i, dotBg: i === arr.length - 1 ? '#D9A54E' : '#EDE9E3', onEnter: () => this.setState({ tlHover: i }), onLeave: () => this.setState({ tlHover: null }), onClick: () => this.setState(st => ({ tlHover: st.tlHover === i ? null : i })) })),
+      heroGlow, heroGlowM: this._glowM, menuOpen: !!this.state.menu, toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }), displayFont, accent, tabs, items, songs, current: songs[cur], coverLabel: d.cover, spotifyUrl, songCount: songData.length, isMusic: tab === 0, tlOpen: this.state.tl, tlClosed: !this.state.tl, toggleTl: () => { const was = this.state.tl; this.setState({ tl: !was }); if (was) { const el = document.getElementById('a-sobre'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); } }, isLyrics: tab === 1,
+      playIcon: playing ? '❚❚' : '▶',
+      togglePlay: () => this.setState(s => ({ playing: !s.playing })),
+      timeline: [{"year":"30 agosto","text":"O início do projeto"},{"year":"5 outubro","text":"Primeira apresentação"},{"year":"27 outubro","text":"Primeira música publicada"},{"year":"6 novembro","text":"Primeiro clipe musical"},{"year":"4 dezembro","text":"Câmara Municipal de Sorriso"},{"year":"16 dezembro","text":"Promic · Natal Luz"},{"year":"17 dezembro","text":"\"Evangelho\""}],
+      videos: ['[Título do vídeo]', '[Título do vídeo]'],
+      videos3: ['[Título do vídeo]', '[Título do vídeo]', '[Título do vídeo]'],
+      agenda: [1, 2, 3].map(() => ({ day: '00', month: 'mês', title: '[Nome do evento]', place: '[Local · cidade · horário]' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

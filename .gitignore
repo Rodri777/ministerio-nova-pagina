@@ -1,0 +1,10 @@
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+# editores
+.vscode/
+.idea/
+*.swp
+# capturas de trabalho
+docs/capturas/tmp/
