@@ -1,0 +1,354 @@
+diff --git a/agendamento.js b/agendamento.js
+new file mode 100644
+index 0000000..0ccb956
+--- /dev/null
++++ b/agendamento.js
+@@ -0,0 +1,108 @@
++/* Agendamentos — chips por tipo de evento, botão do WhatsApp com mensagem pronta e revelação ao rolar.
++   Dados em data/agendamento.js (window.NP_AGENDA). */
++(() => {
++  const cfg = window.NP_AGENDA;
++  const root = document.getElementById('agendamentos');
++  if (!cfg || !root || !Array.isArray(cfg.tipos) || !cfg.tipos.length) return;
++
++  const $ = s => root.querySelector(s);
++  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
++  const isDev = location.protocol === 'file:' || ['localhost', '127.0.0.1', '::1', ''].includes(location.hostname);
++  const isPh = v => !v || /\[.*\]/.test(String(v));
++  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
++
++  /* WhatsApp: só dígitos, 10 a 15 posições, e sem placeholder */
++  const digits = String(cfg.whatsapp || '').replace(/\D/g, '');
++  const waOK = !isPh(cfg.whatsapp) && /^\d{10,15}$/.test(digits);
++  if (!waOK && isDev) console.warn('Agendamento: número do WhatsApp não configurado em data/agendamento.js');
++
++  const tipos = cfg.tipos;
++  const chipsEl = $('#ag-chips'), subject = $('#ag-subject'), cta = $('#ag-cta');
++  const statsEl = $('#ag-stats'), respEl = $('#ag-response'), mailEl = $('#ag-mail');
++  let current = Math.max(0, tipos.findIndex(t => t.id === cfg.padrao));
++  let subjectTimer = null;
++
++  /* chips */
++  chipsEl.innerHTML = tipos.map((t, i) =>
++    `<button type="button" class="ag-chip" role="radio" aria-checked="false" tabindex="-1" data-i="${i}">${esc(t.rotulo)}</button>`).join('');
++  const chips = Array.from(chipsEl.querySelectorAll('.ag-chip'));
++
++  const setSubject = text => {
++    if (subject.textContent === text) return;
++    clearTimeout(subjectTimer);
++    if (reduce) { subject.textContent = text; return; }
++    subject.classList.add('is-out');
++    subjectTimer = setTimeout(() => { subject.textContent = text; subject.classList.remove('is-out'); }, 200);
++  };
++
++  const updateCta = () => {
++    const t = tipos[current];
++    if (waOK) {
++      cta.href = `https://wa.me/${digits}?text=${encodeURIComponent(t.mensagem)}`;
++      cta.removeAttribute('aria-disabled');
++      cta.classList.remove('is-disabled');
++    } else {
++      cta.href = '#';
++      cta.setAttribute('aria-disabled', 'true');
++      cta.classList.add('is-disabled');
++    }
++  };
++
++  const select = (i, { focus = false } = {}) => {
++    current = i;
++    chips.forEach((c, k) => {
++      const on = k === i;
++      c.setAttribute('aria-checked', String(on));
++      c.tabIndex = on ? 0 : -1;
++      c.classList.toggle('is-on', on);
++    });
++    if (focus) chips[i].focus();
++    setSubject(tipos[i].sujeitoTitulo);
++    updateCta();
++  };
++
++  chipsEl.addEventListener('click', e => {
++    const c = e.target.closest('.ag-chip');
++    if (c) select(+c.dataset.i);
++  });
++  chipsEl.addEventListener('keydown', e => {
++    const n = tipos.length;
++    const move = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
++    if (move === undefined && e.key !== 'Home' && e.key !== 'End') return;
++    e.preventDefault();
++    let next = e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : (current + move + n) % n;
++    select(next, { focus: true });
++  });
++
++  /* botão principal */
++  cta.addEventListener('click', e => { if (!waOK) e.preventDefault(); });
++
++  /* faixa de números: oculta se houver qualquer placeholder */
++  const stats = Array.isArray(cfg.estatisticas) ? cfg.estatisticas : [];
++  if (stats.length && !stats.some(s => isPh(s.valor) || isPh(s.rotulo))) {
++    statsEl.innerHTML = stats.map(s => `<div class="ag-stat"><b>${esc(s.valor)}</b><span>${esc(s.rotulo)}</span></div>`).join('');
++    statsEl.hidden = false;
++  } else {
++    statsEl.hidden = true;
++  }
++
++  /* linhas de apoio */
++  if (!isPh(cfg.tempoResposta)) { respEl.textContent = `Respondemos em até ${cfg.tempoResposta}.`; respEl.hidden = false; }
++  else respEl.hidden = true;
++  if (cfg.email) { mailEl.href = `mailto:${cfg.email}`; mailEl.textContent = cfg.email; }
++
++  /* estado inicial */
++  select(current);
++
++  /* revelação ao rolar, uma vez, em sequência */
++  const items = Array.from(root.querySelectorAll('[data-ag]'));
++  items.forEach((el, i) => el.style.setProperty('--i', i));
++  if ('IntersectionObserver' in window) {
++    const io = new IntersectionObserver(([en]) => {
++      if (en.isIntersecting) { root.classList.add('is-in'); io.disconnect(); }
++    }, { threshold: 0.15 });
++    io.observe(root);
++  } else {
++    root.classList.add('is-in');
++  }
++})();
+diff --git a/data/agendamento.js b/data/agendamento.js
+new file mode 100644
+index 0000000..70450bb
+--- /dev/null
++++ b/data/agendamento.js
+@@ -0,0 +1,28 @@
++/*
++ * Agendamentos do Ministério Nova Página — dados da seção #agendamentos.
++ *
++ * whatsapp:      número da assessoria em formato internacional, só dígitos (ex.: 5566999999999).
++ *                Enquanto for "[NUMERO_WHATSAPP]", o botão aparece desabilitado.
++ * email:         e-mail de contato (linha de apoio).
++ * tempoResposta: ex.: "24 horas úteis". Se tiver colchetes, a frase de resposta não aparece.
++ * estatisticas:  faixa de números. Se algum valor ou rótulo tiver colchetes, a faixa inteira fica oculta.
++ * tipos:         cada chip. "mensagem" é o texto pré-preenchido enviado no WhatsApp.
++ * padrao:        id do tipo selecionado ao abrir a página.
++ */
++window.NP_AGENDA = {
++  whatsapp: '[NUMERO_WHATSAPP]',
++  email: 'novapaginagrupo@gmail.com',
++  tempoResposta: '[X] horas úteis',
++  estatisticas: [
++    { valor: '[N]', rotulo: 'eventos' },
++    { valor: '[N]', rotulo: 'cidades' },
++    { valor: '[N]', rotulo: 'anos' }
++  ],
++  tipos: [
++    { id: 'culto', rotulo: 'Culto', sujeitoTitulo: 'o seu culto', mensagem: 'Olá! Gostaria de agendar o Ministério Nova Página para um culto.' },
++    { id: 'publico', rotulo: 'Evento público', sujeitoTitulo: 'o seu evento', mensagem: 'Olá! Gostaria de agendar o Ministério Nova Página para um evento público.' },
++    { id: 'casamento', rotulo: 'Casamento', sujeitoTitulo: 'o seu casamento', mensagem: 'Olá! Gostaria de agendar o Ministério Nova Página para um casamento.' },
++    { id: 'outro', rotulo: 'Outro', sujeitoTitulo: 'o seu evento', mensagem: 'Olá! Gostaria de conversar sobre um agendamento com o Ministério Nova Página.' }
++  ],
++  padrao: 'outro'
++};
+diff --git a/index.html b/index.html
+index 5a0ede9..0a44048 100644
+--- a/index.html
++++ b/index.html
+@@ -166,26 +166,62 @@
+ </section>
+ 
+ <!-- ============ CONTATO ============ -->
+-<section id="contato" class="contact" data-seam data-reveal-children data-stack>
+-  <div class="contact-grid">
+-    <div>
+-      <div class="eyebrow eyebrow--gold">Contato</div>
+-      <h2>Convide o <em>ministério</em></h2>
+-      <p>Para apresentações, cultos e eventos, envie os dados e retornaremos o contato.</p>
++<a id="contato" class="anchor-legacy" aria-hidden="true"></a>
++<a id="contato" class="anchor-legacy" aria-hidden="true"></a>
++<section id="agendamentos" class="agendamentos" aria-labelledby="ag-titulo" data-seam data-stack>
++  <div class="container">
++    <div class="ag-main">
++      <div class="eyebrow eyebrow--gold" data-ag>Agendamentos</div>
++      <h2 class="ag-title" id="ag-titulo" data-ag aria-live="polite">Convide o <em>ministério</em> para <span class="ag-subject" id="ag-subject">o seu evento</span>.</h2>
++      <p class="ag-lead" data-ag>Ficaremos felizes em levar a nossa mensagem ao seu culto, evento ou comunidade.</p>
++
++      <div class="ag-kind" data-ag>
++        <div class="ag-label" id="ag-kind-label">Que tipo de evento é?</div>
++        <div class="ag-chips" role="radiogroup" aria-labelledby="ag-kind-label" id="ag-chips"><button type="button" class="ag-chip" role="radio" aria-checked="false" tabindex="-1" data-i="0">Culto</button><button type="button" class="ag-chip" role="radio" aria-checked="false" tabindex="-1" data-i="1">Evento público</button><button type="button" class="ag-chip" role="radio" aria-checked="false" tabindex="-1" data-i="2">Casamento</button><button type="button" class="ag-chip" role="radio" aria-checked="true" tabindex="0" data-i="3">Outro</button></div>
++      </div>
++
++      <div class="ag-cta" data-ag>
++        <a class="ag-btn" id="ag-cta" href="#" target="_blank" rel="noopener noreferrer">
++          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
++          <span>Falar com a assessoria no WhatsApp</span>
++          <span class="ag-arrow" aria-hidden="true">→</span>
++        </a>
++        <div class="ag-micro" data-ag>Sua mensagem já vem pronta · ou envie um e&#8209;mail para <a id="ag-mail" href="mailto:" class="ag-link">novapaginagrupo@gmail.com</a></div>
++      </div>
++
++      <div class="ag-prep" data-ag><span class="ag-prep__label">Tenha em mãos:</span> Data <span aria-hidden="true">·</span> Cidade e local <span aria-hidden="true">·</span> Horário <span aria-hidden="true">·</span> Nome do responsável</div>
++      <div class="ag-stats" id="ag-stats" data-ag hidden></div>
+     </div>
+-    <form id="contact-form" novalidate>
+-      <label class="sr-only" for="f-nome">Nome</label><input id="f-nome" name="nome" placeholder="Nome" autocomplete="name">
+-      <label class="sr-only" for="f-contato">E-mail ou telefone</label><input id="f-contato" name="contato" placeholder="E-mail ou telefone">
+-      <label class="sr-only" for="f-evento">Data e local do evento</label><input id="f-evento" name="evento" placeholder="Data e local do evento">
+-      <label class="sr-only" for="f-msg">Mensagem</label><textarea id="f-msg" name="mensagem" placeholder="Mensagem" rows="3"></textarea>
+-      <button type="submit" class="btn btn--primary">Enviar convite</button>
+-      <div class="form-note" id="form-note" role="status"></div>
+-    </form>
+   </div>
++
++  <div class="container">
++    <ol class="ag-steps">
++      <li class="ag-step" data-ag>
++        <span class="ag-num" aria-hidden="true">1</span>
++        <div><h3>Escolha o tipo de evento</h3><div class="ag-text">Selecione acima o que você vai receber: culto, evento público, casamento ou outro.</div></div>
++      </li>
++      <li class="ag-step" data-ag>
++        <span class="ag-num" aria-hidden="true">2</span>
++        <div><h3>Fale com a assessoria</h3><div class="ag-text">Toque no botão. A mensagem já vem com o tipo de evento; é só completar com a data e o local.</div></div>
++      </li>
++      <li class="ag-step" data-ag>
++        <span class="ag-num" aria-hidden="true">3</span>
++        <div><h3>Confirmamos a data juntos</h3><div class="ag-text">A assessoria verifica a disponibilidade da equipe e combina os detalhes com você.</div></div>
++      </li>
++    </ol>
++
++    <div class="ag-support" data-ag>
++      <div class="ag-text" id="ag-response" hidden></div>
++    </div>
++  </div>
++
++
++  <div class="container">
+   <footer class="footer">
+-    <div class="footer__brand"><img src="assets/logo-mark-white.png" alt="">Ministério Nova Página</div>
+-    <nav aria-label="Redes sociais"><a href="#contato">Instagram</a><a href="#contato">YouTube</a><a href="#contato">Spotify</a><a href="#contato">WhatsApp</a></nav>
+-  </footer>
++      <div class="footer__brand"><img src="assets/logo-mark-white.png" alt="">Ministério Nova Página</div>
++      <nav aria-label="Redes sociais"><a href="#contato">Instagram</a><a href="#contato">YouTube</a><a href="#contato">Spotify</a><a href="#contato">WhatsApp</a></nav>
++    </footer>
++  </div>
+ </section>
+ </main>
+ 
+@@ -210,5 +246,7 @@
+ <script src="data/releases.js"></script>
+ <script src="discografia.js"></script>
+ <script src="transitions.js"></script>
++<script src="data/agendamento.js"></script>
++<script src="agendamento.js"></script>
+ </body>
+ </html>
+diff --git a/styles.css b/styles.css
+index fa3316c..9655035 100644
+--- a/styles.css
++++ b/styles.css
+@@ -557,3 +557,109 @@ section, [id] { scroll-margin-top: 0; }
+ @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+   .hero-glow .dust { display: block; animation: none !important; opacity: var(--o); }
+ }
++
++/* ---------- AGENDAMENTOS (#agendamentos): seção só de texto, centralizada ---------- */
++.anchor-legacy { display: block; position: relative; top: 0; height: 0; overflow: hidden; }
++.agendamentos {
++  position: relative; isolation: isolate; overflow: hidden; color: var(--ivory);
++  padding-block: clamp(80px, 10vw, 140px);
++  background: radial-gradient(ellipse 70% 55% at 88% 0%, rgba(240,190,90,.14) 0%, transparent 70%), var(--ink);
++  border-top: 1px solid rgba(228,171,89,.3);
++}
++.agendamentos [hidden] { display: none !important; }
++
++.ag-main { max-width: 720px; margin-inline: auto; text-align: center; }
++.agendamentos .ag-title {
++  font: 400 var(--fs-h2)/1.05 var(--serif); margin: 0 auto 24px; color: var(--ivory);
++  text-wrap: balance; min-height: calc(var(--fs-h2) * 2.1); text-align: center;
++}
++.agendamentos .ag-title em { color: var(--gold-light); }
++.ag-subject { display: inline-block; transition: opacity .2s ease; }
++.ag-subject.is-out { opacity: 0; }
++.ag-lead { max-width: 52ch; margin-inline: auto; font-size: clamp(1.125rem, 1.05rem + .3vw, 1.25rem); line-height: 1.6; font-weight: 400; color: rgba(237,233,227,.85); text-wrap: pretty; }
++
++.ag-kind { margin-top: 40px; }
++.ag-label { font-size: .875rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 14px; }
++.ag-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
++.ag-chip {
++  min-height: 44px; padding: 10px 20px; border-radius: 999px; cursor: pointer;
++  border: 1px solid rgba(228,171,89,.35); background: transparent; color: var(--ivory);
++  font: 500 .9375rem/1.2 var(--sans);
++  transition: border-color .15s ease, background-color .15s ease, color .15s ease;
++}
++.ag-chip.is-on {
++  border-color: var(--gold-warm); color: var(--gold-light);
++  background: linear-gradient(180deg, rgba(252,213,149,.15), rgba(228,171,89,.15));
++}
++@media (hover: hover) and (pointer: fine) { .ag-chip:not(.is-on):hover { border-color: var(--gold-warm); } }
++.ag-chip:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
++
++.ag-cta { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
++.ag-btn {
++  display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 14px 28px; border-radius: 999px;
++  background: var(--gold-gradient); background-color: var(--gold-warm); color: var(--ink);
++  font: 500 1rem/1.2 var(--sans); letter-spacing: .01em;
++  transition: transform .16s var(--ease), filter .15s ease, opacity .15s ease;
++}
++.ag-btn svg { width: 22px; height: 22px; fill: var(--ink); flex: none; }
++.ag-arrow { transition: transform .2s var(--ease); }
++.ag-btn.is-disabled { opacity: .5; cursor: not-allowed; }
++.ag-btn:active { transform: scale(.97); }
++@media (hover: hover) and (pointer: fine) {
++  .ag-btn:not(.is-disabled):hover { filter: brightness(1.08); }
++  .ag-btn:not(.is-disabled):hover .ag-arrow { transform: translateX(4px); }
++}
++.ag-micro { font-size: .9375rem; line-height: 1.6; color: rgba(237,233,227,.72); text-align: center; max-width: 52ch; margin-inline: auto; }
++.ag-prep { margin-top: 28px; font-size: .9375rem; line-height: 1.6; color: rgba(237,233,227,.85); text-align: center; }
++.ag-prep__label { display: block; font-size: .8125rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 4px; }
++.ag-prep span[aria-hidden] { color: var(--gold-warm); margin-inline: 4px; }
++
++.ag-stats {
++  display: flex; align-items: stretch; justify-content: center; flex-wrap: wrap;
++  margin: 44px auto 0; padding-top: 28px; border-top: 1px solid rgba(228,171,89,.3);
++}
++.ag-stat { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-inline: clamp(20px, 3vw, 40px); }
++.ag-stat + .ag-stat { border-left: 1px solid rgba(228,171,89,.45); }
++.ag-stat b { font: 400 clamp(2rem, 1.6rem + 1.5vw, 2.75rem)/1 var(--serif); color: var(--gold-light); }
++.ag-stat span { font-size: .8125rem; letter-spacing: .15em; text-transform: uppercase; color: rgba(237,233,227,.8); }
++
++.ag-steps {
++  list-style: none; margin: clamp(64px, 8vw, 112px) 0 0; padding: 0;
++  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px);
++  text-align: center;
++}
++.ag-step {
++  display: flex; flex-direction: column; align-items: center; gap: 12px;
++  padding-top: 24px; border-top: 1px solid rgba(228,171,89,.35);
++}
++.ag-num { font: 400 2.5rem/1 var(--serif); color: var(--gold-light); }
++.agendamentos .ag-step h3 { margin: 0 0 8px; font: 500 1.125rem/1.3 var(--sans); color: var(--ivory); }
++.ag-text { font-size: 1rem; line-height: 1.6; color: rgba(237,233,227,.85); max-width: 32ch; margin-inline: auto; }
++
++.ag-support { margin-top: 56px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
++.ag-link { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
++
++.agendamentos :is(a, button):focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
++
++/* revelação ao rolar: estado oculto só com JS */
++.js .agendamentos [data-ag] { opacity: 0; transform: translateY(16px); }
++.agendamentos.is-in [data-ag] {
++  opacity: 1; transform: none;
++  transition: opacity .5s var(--ease), transform .5s var(--ease);
++  transition-delay: calc(var(--i, 0) * 60ms);
++}
++
++@media (max-width: 900px) {
++  .ag-steps { grid-template-columns: 1fr; }
++}
++@media (max-width: 640px) {
++  .agendamentos .ag-title { min-height: calc(var(--fs-h2) * 3.15); }
++  .ag-chip { flex: 1 1 calc(50% - 10px); }
++  .ag-btn { width: 100%; justify-content: center; }
++  .ag-stat { padding-inline: 16px; }
++}
++@media (prefers-reduced-motion: reduce) {
++  .js .agendamentos [data-ag] { transform: none; }
++  .agendamentos.is-in [data-ag] { transition: opacity .5s ease; transition-delay: 0s; }
++  .ag-subject { transition: none; }
++}
