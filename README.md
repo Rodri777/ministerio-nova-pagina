@@ -29,7 +29,9 @@ styles.css            estilos gerais e tokens (cores, fontes, container)
 discografia.css       estilos da seção Discografia
 main.js               menu, animações do Hero, linha do tempo, agenda, formulário
 discografia.js        seção Discografia (gerada a partir de data/releases.js) + player do Spotify
+transitions.css/.js   transições: páginas empilhadas ao rolar, virada de página no menu, costura de luz
 data/releases.js      DADOS dos lançamentos — edite aqui para publicar músicas novas
+data/site.js          DADOS gerais: links das redes sociais (cabeçalho e menu do celular)
 fonts/                fontes locais (Cormorant Garamond, Ubuntu, Ubuntu Mono — licença SIL OFL)
 assets/               logos, capas e fotos
 docs/capturas/        capturas de tela de referência
@@ -42,6 +44,15 @@ Abra `data/releases.js` e copie um item do array `NP_RELEASES`. Preencha `id`, `
 `capa`, `spotifyId`, `links` e `letra`. O mais recente pela data vira o destaque automaticamente.
 Para um lançamento futuro, use `emBreve: true` e `preSaveUrl` — ele aparece como card "Em breve".
 
+## Transições entre seções
+
+- **Ao rolar:** cada seção assenta na tela quando o fim dela chega ao pé da tela e a próxima sobe por cima;
+  a de trás recua levemente e escurece. Subindo, o efeito se desfaz. Ajustes no topo de `transitions.js`
+  (`STACK_SCALE`, `STACK_VEIL`).
+- **No menu:** saltos longos usam a "virada de página" (folha escura com luz dourada e o monograma);
+  seções próximas usam rolagem suave. Também entre a home e "Nossa história".
+- Com "reduzir movimento" ligado no sistema, nenhuma animação é aplicada.
+
 ## Dependências externas (precisam de internet)
 
 | Serviço | Onde | Quando carrega |
@@ -53,9 +64,9 @@ Todo o resto (fontes, imagens, scripts) está neste repositório.
 
 ## Pendências de conteúdo
 
-- `data/releases.js`: link do artista no Spotify; links do artista e das faixas no Apple Music, Deezer, YouTube Music e Amazon Music;
-  `spotifyId` e link do Spotify de "Evangelho"; letras das duas músicas.
+- `data/releases.js`: link do artista no Spotify usado no card "Seguir no Spotify" (`NP_ARTISTA.spotify`);
+  `spotifyId` da faixa "Evangelho" (para a prévia); link do Amazon Music de "Eu Vou Falar"; letras das duas músicas.
 - Sobre / linha do tempo: datas `[  ]` de Câmara Municipal de Sorriso, Gravação em estúdio, Plataformas digitais, Primeiro clipe e Natal Luz.
 - Nossa história: 12 × nome, naipe e foto dos integrantes; foto de Davi Francisco; 7 fotos dos marcos.
 - Vídeos: dois vídeos secundários. Galeria: fotos. Agenda: eventos. Contato: o formulário ainda não envia (só visual).
-- Redes sociais do cabeçalho e do rodapé ainda apontam para `#contato`.
+- Links de texto das redes no rodapé ainda apontam para `#contato`.

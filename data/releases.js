@@ -13,6 +13,7 @@
  *               Sem ID, o card de prévia não aparece no destaque.
  *   spotifyTipo "track" ou "album" (usado no player de prévia)
  *   links       { spotify, appleMusic, deezer, youtubeMusic, amazonMusic }
+ *               Cada ícone de plataforma só aparece quando o campo é uma URL http(s) válida; use null para ocultar.
  *   letra       texto da letra (use \n para quebras de linha)
  *   emBreve     true para um lançamento futuro (vira o card "Em breve" com pré-save)
  *   preSaveUrl  link de pré-save (apenas para emBreve: true)
@@ -40,7 +41,13 @@ window.NP_RELEASES = [
     capa: 'assets/foto-grupo-sobre.png',
     spotifyId: '3HHK51ifdDZfyP1UpQcaoO',
     spotifyTipo: 'track',
-    links: { spotify: 'https://open.spotify.com/track/3HHK51ifdDZfyP1UpQcaoO', appleMusic: '[LINK]', deezer: '[LINK]', youtubeMusic: '[LINK]', amazonMusic: '[LINK]' },
+    links: {
+      spotify: 'https://open.spotify.com/track/3HHK51ifdDZfyP1UpQcaoO',
+      appleMusic: 'https://music.apple.com/br/album/eu-vou-falar-single/1847772340',
+      deezer: 'https://www.deezer.com/br/album/842128042',
+      youtubeMusic: 'https://music.youtube.com/playlist?list=OLAK5uy_mzLrFnNcwo8IoDDeXYOXbZeX7kUR8AkI8',
+      amazonMusic: null
+    },
     letra: '[LETRA]',
     emBreve: false,
     preSaveUrl: ''
@@ -54,7 +61,13 @@ window.NP_RELEASES = [
     capa: 'assets/capa-evangelho.png',
     spotifyId: null,
     spotifyTipo: 'track',
-    links: { spotify: '[LINK]', appleMusic: '[LINK]', deezer: '[LINK]', youtubeMusic: '[LINK]', amazonMusic: '[LINK]' },
+    links: {
+      spotify: 'https://open.spotify.com/album/7mAmTaNkQtLDSC3PSMRIVQ',
+      appleMusic: 'https://music.apple.com/us/album/evangelho-single/1861951965',
+      deezer: 'https://www.deezer.com/album/878823062',
+      youtubeMusic: 'https://music.youtube.com/playlist?list=OLAK5uy_kA9C--MRQQ6XOz7iwGImkxpvBDgwgcfN0',
+      amazonMusic: 'https://music.amazon.com/albums/B0G7Q2CX2N'
+    },
     letra: '[LETRA]',
     emBreve: false,
     preSaveUrl: ''

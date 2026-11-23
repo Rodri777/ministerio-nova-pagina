@@ -1,0 +1,99 @@
+/* ==========================================================================
+   Transições entre seções — Ministério Nova Página
+   1. Virada de página: uma folha escura com bordas de luz dourada cobre a tela
+      ao navegar para uma seção distante (ou para outra página) e sobe revelando o destino.
+   2. Costura de luz: um filete dourado se desenha na divisa quando a seção entra na tela.
+   3. Entrada do conteúdo: blocos sobem suavemente, em sequência.
+   Só transform e opacity são animados. prefers-reduced-motion: nada se move.
+   ========================================================================== */
+
+/* ---------- 1. virada de página ---------- */
+.page-wipe {
+  position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden;
+}
+.page-wipe.is-active { pointer-events: auto; }
+.page-wipe__panel {
+  position: absolute; inset: 0;
+  transform: translateY(100%);
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(240,190,90,.14) 0%, transparent 70%),
+    linear-gradient(180deg, #120d09 0%, #1d150e 50%, #0a0806 100%);
+  will-change: transform;
+}
+/* bordas de luz: a de cima lidera ao cobrir, a de baixo ao revelar */
+.page-wipe__panel::before, .page-wipe__panel::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, rgba(228,171,89,0) 0%, var(--gold-warm) 18%, var(--gold-light) 50%, var(--gold-warm) 82%, rgba(228,171,89,0) 100%);
+  box-shadow: 0 0 18px 4px rgba(240,190,90,.35), 0 0 60px 12px rgba(240,190,90,.12);
+}
+.page-wipe__panel::before { top: 0; }
+.page-wipe__panel::after { bottom: 0; }
+.page-wipe__mark {
+  position: absolute; left: 50%; top: 50%; width: 72px; height: auto;
+  transform: translate(-50%, -50%); opacity: 0;
+}
+/* antes do JS: página que chega por uma virada já nasce coberta (sem piscar) */
+html.np-wipe-in body::before {
+  content: ""; position: fixed; inset: 0; z-index: 89;
+  background: linear-gradient(180deg, #120d09 0%, #1d150e 50%, #0a0806 100%);
+}
+section[tabindex="-1"]:focus { outline: none; }
+
+/* ---------- páginas empilhadas (ligado à rolagem) ---------- */
+/* ativado pelo JS (html.np-stacking): cada seção assenta na tela e a próxima sobe por cima */
+.np-stacking [data-stack] {
+  position: sticky;                       /* top definido pelo JS: 0 ou (altura da tela − altura da seção) */
+  transform-origin: 50% var(--stack-origin, 50vh);
+}
+.np-stacking [data-stack].is-stacking { will-change: transform; }
+/* a folha que chega projeta uma sombra suave sobre a anterior */
+.np-stacking main > [data-stack] { box-shadow: 0 -30px 60px -24px rgba(10,8,6,.55); }
+.stack-veil {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none;
+  background: #0a0806; opacity: 0;
+}
+
+/* ---------- 2. costura de luz ---------- */
+[data-seam] { position: relative; }
+[data-seam]::before {
+  content: ""; position: absolute; z-index: 2; left: 0; right: 0; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(228,171,89,0) 0%, var(--gold-warm) 20%, var(--gold-light) 50%, var(--gold-warm) 80%, rgba(228,171,89,0) 100%);
+  transform-origin: left center;
+}
+.js [data-seam]::before { transform: scaleX(0); opacity: 0; }
+.js [data-seam].is-seamed::before {
+  transform: scaleX(1); opacity: 1;
+  transition: transform 1.1s var(--ease), opacity .4s ease;
+}
+/* brilho que corre pelo filete uma vez */
+.seam-spark {
+  position: absolute; z-index: 3; top: -4px; left: 0; width: 28%; height: 10px; pointer-events: none;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(252,213,149,.95) 0%, rgba(240,190,90,.35) 40%, transparent 72%);
+  opacity: 0; transform: translateX(-100%);
+}
+/* fill backwards: ao terminar volta para fora da tela à esquerda (não cria rolagem horizontal) */
+[data-seam].is-seamed > .seam-spark { animation: npSeamSpark 1.4s var(--ease) .1s 1 backwards; }
+@keyframes npSeamSpark {
+  0% { opacity: 0; transform: translateX(-100%); }
+  15% { opacity: 1; }
+  80% { opacity: .8; }
+  100% { opacity: 0; transform: translateX(357%); }
+}
+
+/* ---------- 3. entrada do conteúdo ---------- */
+.js [data-rv] { opacity: 0; transform: translateY(24px); }
+.is-revealed > [data-rv] {
+  opacity: 1; transform: none;
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  transition-delay: calc(var(--rv-i, 0) * 90ms + 120ms);
+}
+
+/* ---------- movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .page-wipe { display: none; }
+  html.np-wipe-in body::before { display: none; }
+  .js [data-seam]::before { transform: none; opacity: 1; transition: none; }
+  .seam-spark { display: none; }
+  .js [data-rv] { transform: none; }
+  .is-revealed > [data-rv] { transition: opacity .5s ease; transition-delay: 0s; }
+}

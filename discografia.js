@@ -36,8 +36,15 @@
 
   const spotifyBtn = (url, label, extra = '') =>
     `<a class="btn-spotify ${extra}" ${linkAttrs(url)}>${icon('spotify', 'btn-spotify__icon')}<span>${esc(label)}</span></a>`;
-  const platformIcons = (links, who) => PLATFORMS.map(([k, name]) =>
-    `<a class="plat" ${linkAttrs(links[k])} aria-label="${esc(who)} no ${name}">${icon(k)}</a>`).join('');
+  /* ícone de plataforma: só com URL http(s) válida; null, vazio ou placeholder → ícone não é renderizado */
+  const isUrl = v => {
+    if (typeof v !== 'string' || !/^https?:\/\//i.test(v.trim())) return false;
+    try { new URL(v.trim()); return true; } catch (_) { return false; }
+  };
+  const platformIcons = (links, titulo) => PLATFORMS
+    .filter(([k]) => isUrl(links && links[k]))
+    .map(([k, name]) => `<a class="plat" href="${esc(links[k].trim())}" target="_blank" rel="noopener noreferrer" aria-label="Ouvir ${esc(titulo)} no ${name}">${icon(k)}</a>`)
+    .join('');
 
   /* ---------- dados ---------- */
   const byDate = (a, b) => String(b.data).localeCompare(String(a.data));
@@ -286,7 +293,7 @@
     $('.feature__eyebrow', feature).textContent = r.id === latestId ? 'Lançamento mais recente' : 'Lançamento';
     $('.feature__name', feature).textContent = r.titulo;
     $('.feature__meta', feature).textContent = `${r.tipo} · ${r.ano}`;
-    $('.feature__plats', feature).innerHTML = (isPending(r.links.spotify) ? '' : spotifyBtn(r.links.spotify, 'Ouvir no Spotify')) + `<div class="feature__icons">${platformIcons(r.links, r.titulo)}</div>`;
+    $('.feature__plats', feature).innerHTML = (isPending(r.links.spotify) ? '' : spotifyBtn(r.links.spotify, 'Ouvir no Spotify')) + ((icons => icons ? `<div class="feature__icons">${icons}</div>` : '')(platformIcons(r.links, r.titulo)));
     syncPlayer(r);
     setGlow(r.capa);
     $$('.rel__cover', list).forEach(b => {
@@ -306,7 +313,11 @@
   };
   const scrollToFeature = () => {
     const t = feature.getBoundingClientRect().top;
-    if (t < 0 || t > window.innerHeight * 0.5) feature.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    if (t < 0 || t > window.innerHeight * 0.5) {
+      // com as seções empilhadas (sticky), a posição real vem de NP_naturalTop
+      if (window.NP_naturalTop) window.scrollTo({ top: Math.max(0, window.NP_naturalTop(feature) - 24), behavior: reduce ? 'auto' : 'smooth' });
+      else feature.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
   };
 
   list.addEventListener('click', e => { const b = e.target.closest('.rel__cover'); if (b) show(b.dataset.id); });

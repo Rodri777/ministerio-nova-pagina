@@ -10,7 +10,9 @@
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="discografia.css">
+<link rel="stylesheet" href="transitions.css">
 <script>document.documentElement.classList.add('js')</script>
+<script>try{if(sessionStorage.getItem('np-wipe'))document.documentElement.classList.add('np-wipe-in')}catch(e){}</script>
 </head>
 <body>
 
@@ -23,7 +25,7 @@
 </svg>
 
 <!-- ============ HERO ============ -->
-<header id="topo" class="hero">
+<header id="topo" class="hero" data-stack data-stack-noveil>
   <div class="hero-glow" id="hero-glow" aria-hidden="true">
     <div class="pool"></div>
     <div class="beam-wrap"><div class="beam"></div></div>
@@ -35,12 +37,7 @@
     <nav class="site-nav" aria-label="Principal">
       <a href="#sobre">Sobre</a><a href="#discografia">Discografia</a><a href="#videos">Vídeos</a><a href="#galeria">Galeria</a><a href="#agenda">Agenda</a>
     </nav>
-    <div class="socials">
-      <a href="#contato" aria-label="Instagram do Ministério Nova Página"><svg><use href="#i-instagram"/></svg></a>
-      <a href="#contato" aria-label="Facebook do Ministério Nova Página"><svg><use href="#i-facebook"/></svg></a>
-      <a href="#contato" aria-label="YouTube do Ministério Nova Página"><svg><use href="#i-youtube"/></svg></a>
-      <a href="#contato" aria-label="Spotify do Ministério Nova Página"><svg><use href="#i-spotify"/></svg></a>
-    </div>
+    <div class="socials" data-social></div>
     <button class="menu-btn" id="menu-open" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
   </div>
 
@@ -76,17 +73,12 @@
   <nav aria-label="Menu móvel">
     <a href="#sobre">Sobre</a><a href="#discografia">Discografia</a><a href="#videos">Vídeos</a><a href="#galeria">Galeria</a><a href="#agenda">Agenda</a>
   </nav>
-  <div class="socials">
-    <a href="#contato" aria-label="Instagram do Ministério Nova Página"><svg><use href="#i-instagram"/></svg></a>
-    <a href="#contato" aria-label="Facebook do Ministério Nova Página"><svg><use href="#i-facebook"/></svg></a>
-    <a href="#contato" aria-label="YouTube do Ministério Nova Página"><svg><use href="#i-youtube"/></svg></a>
-    <a href="#contato" aria-label="Spotify do Ministério Nova Página"><svg><use href="#i-spotify"/></svg></a>
-  </div>
+  <div class="socials" data-social></div>
 </div>
 
 <main>
 <!-- ============ SOBRE ============ -->
-<section id="sobre" class="about" aria-labelledby="sobre-titulo">
+<section id="sobre" class="about" aria-labelledby="sobre-titulo" data-seam data-stack>
   <div class="container">
     <div class="about-grid">
       <div class="about-photo">
@@ -120,7 +112,7 @@
 </section>
 
 <!-- ============ DISCOGRAFIA ============ -->
-<section id="discografia" class="disco" aria-labelledby="disco-titulo">
+<section id="discografia" class="disco" aria-labelledby="disco-titulo" data-seam data-stack>
   <div class="container">
     <noscript>
       <div class="eyebrow eyebrow--gold">Discografia</div>
@@ -134,7 +126,7 @@
 </section>
 
 <!-- ============ VÍDEOS ============ -->
-<section id="videos" class="videos">
+<section id="videos" class="videos" data-seam data-reveal-children data-stack>
   <div class="eyebrow eyebrow--dark">Vídeos</div>
   <h2 class="display">Apresentações</h2>
   <div class="videos-grid">
@@ -153,7 +145,7 @@
 </section>
 
 <!-- ============ GALERIA ============ -->
-<section id="galeria" class="gallery">
+<section id="galeria" class="gallery" data-seam data-reveal-children data-stack>
   <div class="gallery__head">
     <div><div class="eyebrow eyebrow--dark">Galeria</div><h2 class="display">Fotos <em>históricas</em></h2></div>
     <a href="#galeria" class="link-line">Ver todas →</a>
@@ -168,13 +160,13 @@
 </section>
 
 <!-- ============ AGENDA ============ -->
-<section id="agenda" class="agenda">
+<section id="agenda" class="agenda" data-seam data-reveal-children data-stack>
   <div><div class="eyebrow">Agenda</div><h2 class="display">Próximas apresentações</h2></div>
   <div id="events"></div>
 </section>
 
 <!-- ============ CONTATO ============ -->
-<section id="contato" class="contact">
+<section id="contato" class="contact" data-seam data-reveal-children data-stack>
   <div class="contact-grid">
     <div>
       <div class="eyebrow eyebrow--gold">Contato</div>
@@ -213,8 +205,10 @@
   </div>
 </div>
 
+<script src="data/site.js"></script>
 <script src="main.js"></script>
 <script src="data/releases.js"></script>
 <script src="discografia.js"></script>
+<script src="transitions.js"></script>
 </body>
 </html>

@@ -23,6 +23,22 @@
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  /* ---------- redes sociais (cabeçalho desktop + menu do celular), a partir de data/site.js ---------- */
+  const SOCIAL = [
+    ['instagram', 'Instagram'],
+    ['facebook', 'Facebook'],
+    ['youtube', 'YouTube'],
+    ['spotify', 'Spotify']
+  ];
+  const isUrl = v => {
+    if (typeof v !== 'string' || !/^https?:\/\//i.test(v.trim())) return false;
+    try { new URL(v.trim()); return true; } catch (_) { return false; }
+  };
+  const social = (window.NP_SITE && window.NP_SITE.social) || {};
+  const socialHTML = SOCIAL.filter(([k]) => isUrl(social[k])).map(([k, name]) =>
+    `<a href="${esc(social[k].trim())}" target="_blank" rel="noopener noreferrer" aria-label="${name} do Ministério Nova Página"><svg aria-hidden="true" focusable="false"><use href="#i-${k}"/></svg></a>`).join('');
+  $$('[data-social]').forEach(el => { el.innerHTML = socialHTML; el.hidden = !socialHTML; });
+
   /* ---------- menu móvel ---------- */
   const menu = $('#mobile-menu');
   const openBtn = $('#menu-open');
