@@ -7,6 +7,9 @@
    Só transform e opacity são animados. prefers-reduced-motion: nada se move.
    ========================================================================== */
 
+/* ligação do brilho da costura com a largura da página (não cria barra de rolagem; mantém o sticky) */
+main { overflow-x: clip; }
+
 /* ---------- 1. virada de página ---------- */
 .page-wipe {
   position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden;

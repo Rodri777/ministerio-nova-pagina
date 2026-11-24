@@ -1,0 +1,37 @@
+{
+  "_leia": "Para adicionar um Reel: copie um item de \"itens\", preencha codigo (o trecho após /reel/ na URL) e salve a capa em assets/videos/ (WebP e JPG, 9:16). Itens sem codigo não aparecem. capaLargura e capaAltura são as dimensões reais da imagem em pixels.",
+  "itens": [
+    {
+      "id": "promic-2025",
+      "plataforma": "instagram",
+      "codigo": "DSkchfaEdTt",
+      "url": "https://www.instagram.com/reel/DSkchfaEdTt/",
+      "titulo": "Promic 2025",
+      "dataExibicao": "DEZ 2025",
+      "evento": "Natal Luz",
+      "local": "Praça da Juventude, Sorriso/MT",
+      "tipo": "Apresentação pública",
+      "descricao": null,
+      "capa": "assets/videos/promic-2025-capa.webp",
+      "capaFallback": "assets/videos/promic-2025-capa.jpg",
+      "capaLargura": 1063,
+      "capaAltura": 1600
+    },
+    {
+      "id": "cantata-natal-2025",
+      "plataforma": "instagram",
+      "codigo": "DSRHF5njEgJ",
+      "url": "https://www.instagram.com/reel/DSRHF5njEgJ/",
+      "titulo": "Cantata de Natal na Igreja Central de Sorriso",
+      "dataExibicao": "DEZ 2025",
+      "evento": "Evento musical",
+      "local": "IASD Central, Sorriso/MT",
+      "tipo": "Apresentação musical",
+      "descricao": null,
+      "capa": "assets/videos/cantata-natal-2025-capa.webp",
+      "capaFallback": "assets/videos/cantata-natal-2025-capa.jpg",
+      "capaLargura": 1005,
+      "capaAltura": 1600
+    }
+  ]
+}
