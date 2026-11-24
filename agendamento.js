@@ -11,7 +11,7 @@
   const isPh = v => !v || /\[.*\]/.test(String(v));
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* WhatsApp: só dígitos, 10 a 15 posições, e sem placeholder */
+  /* WhatsApp: só dígitos, de 10 a 15 caracteres, e sem placeholder */
   const digits = String(cfg.whatsapp || '').replace(/\D/g, '');
   const waOK = !isPh(cfg.whatsapp) && /^\d{10,15}$/.test(digits);
   if (!waOK && isDev) console.warn('Agendamento: número do WhatsApp não configurado em data/agendamento.js');

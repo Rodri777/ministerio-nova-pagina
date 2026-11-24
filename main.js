@@ -13,10 +13,10 @@
   const MILESTONES = [
     ['30 ago', 'Início do projeto', 'Jovens com dons musicais se reuniram para dar vida a um novo projeto.'],
     ['5 out', 'Primeira apresentação', 'Em Nova Mutum (MT), o grupo subiu ao palco pela primeira vez.'],
-    ['[  ]', 'Câmara Municipal de Sorriso', 'A convite da Câmara, o grupo levou uma mensagem especial e uma pauta importante a todos os presentes.'],
-    ['[  ]', 'Gravação em estúdio', '"Eu Vou Falar" foi gravada em estúdio na Betel Música e Artes, em Sorriso.'],
+    ['[  ]', 'Câmara Municipal de Sorriso', 'A convite da Câmara, o grupo levou uma mensagem especial e um tema importante a todos os presentes.'],
+    ['[  ]', 'Gravação em estúdio', '“Eu Vou Falar” foi gravada em estúdio na Betel Música e Artes, em Sorriso.'],
     ['[  ]', 'Nas plataformas digitais', 'Está no YouTube, Spotify, Deezer, Amazon Music e nas principais plataformas digitais.'],
-    ['[  ]', 'Primeiro clipe', 'Lançamento do clipe de "Eu Vou Falar".'],
+    ['[  ]', 'Primeiro clipe', 'Lançamento do clipe de “Eu Vou Falar”.'],
     ['[  ]', 'Natal Luz', 'Com apoio da Secretaria de Cultura de Sorriso, o grupo se apresentou no Natal Luz.']
   ];
   const EVENTS = [1, 2, 3].map(() => ({ day: '00', month: 'mês', title: '[Nome do evento]', place: '[Local · cidade · horário]' }));
