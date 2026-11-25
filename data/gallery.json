@@ -121,6 +121,34 @@
       "local": "Câmara Municipal de Sorriso - MT",
       "legenda": null,
       "destaque": true
+    },
+    {
+      "id": "foto-casamento-2026",
+      "src": "assets/galeria/casamento-2026.png",
+      "width": 315,
+      "height": 570,
+      "alt": "Integrantes do ministério em pé na escadaria de um casamento, vestindo tons claros",
+      "evento": "Casamento",
+      "eventoId": "casamento",
+      "data": null,
+      "dataLabel": "Outubro de 2026",
+      "local": null,
+      "legenda": null,
+      "destaque": true
+    },
+    {
+      "id": "foto-apresentacao-sinop-2026",
+      "src": "assets/galeria/apresentacao-sinop-2026.png",
+      "width": 592,
+      "height": 678,
+      "alt": "Ministro com microfone e braço erguido diante do grupo em uma apresentação na igreja",
+      "evento": "Apresentação musical",
+      "eventoId": "apresentacao-musical-sinop-2026",
+      "data": null,
+      "dataLabel": "Novembro de 2026",
+      "local": "Igreja Adventista Jardim das Oliveiras, Sinop - MT",
+      "legenda": null,
+      "destaque": true
     }
   ]
 }

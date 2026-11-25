@@ -749,3 +749,15 @@ section, [id] { scroll-margin-top: 0; }
   .hero .btn__arrow, .hero .btn--ghost:hover .btn__arrow { transform: none; transition: none; }
   .hero .btn--ghost::after, .hero .btn--ghost:hover::after { transition: opacity .2s ease; }
 }
+
+/* ---------- celular: refinamentos de alinhamento e leitura ---------- */
+/* menu aberto: fundo opaco, sem o texto da Hero aparecendo por trás */
+@media (max-width: 899px) {
+  .mobile-menu { background: #0a0806; }
+}
+/* agendamentos: botão ocupa a largura e o texto quebra de forma equilibrada */
+@media (max-width: 600px) {
+  .ag-cta { width: 100%; }
+  .ag-btn { width: 100%; justify-content: center; white-space: normal; text-align: center; text-wrap: balance; padding: 14px 22px; }
+  .ag-prep__item { white-space: nowrap; }
+}
