@@ -293,6 +293,7 @@
     $('.feature__eyebrow', feature).textContent = r.id === latestId ? 'Lançamento mais recente' : 'Lançamento';
     $('.feature__name', feature).textContent = r.titulo;
     $('.feature__meta', feature).textContent = `${r.tipo} · ${r.ano}`;
+    $('.link-lyrics', feature).hidden = !hasLyrics(r);
     $('.feature__plats', feature).innerHTML = (isPending(r.links.spotify) ? '' : spotifyBtn(r.links.spotify, 'Ouvir no Spotify')) + ((icons => icons ? `<div class="feature__icons">${icons}</div>` : '')(platformIcons(r.links, r.titulo)));
     syncPlayer(r);
     setGlow(r.capa);
@@ -325,26 +326,221 @@
 
   fill(published[0]);
 
-  /* ---------- letra (drawer / bottom sheet) ---------- */
+  function hasLyrics(r) {
+    return !!(r && r.letra && typeof r.letra === 'object' && Array.isArray(r.letra.secoes) && r.letra.secoes.length);
+  }
+
+  /* ---------- letra (drawer no desktop / bottom sheet no celular) ----------
+     r.letra = { creditos: { letra, musica }, secoes: [ { id, tipo, rotulo, repetir, linhas: [ { texto, apoio, vocalize } ] } ] }
+     Todo o conteúdo da letra é inserido com textContent. */
   const drawer = document.getElementById('lyrics-drawer');
   const panel = $('.drawer__panel', drawer);
-  let opener = null, closeTimer = null;
+  const scroller = $('.drawer__text', drawer);
+  const chipsEl = $('.drawer__chips', drawer);
+  const statusEl = $('.drawer__status', drawer);
+  const SIZES = ['1rem', '1.125rem', '1.3125rem'];
+  const SIZE_KEY = 'np-letra-tamanho';
+  let sizeIdx = 1;
+  try {
+    const saved = localStorage.getItem(SIZE_KEY);
+    if (saved !== null && SIZES[Number(saved)]) sizeIdx = Number(saved);
+  } catch (_) { /* sem localStorage */ }
+  let opener = null, closeTimer = null, statusTimer = null, lockTimer = null;
+  let sectionIO = null, chipMap = new Map(), activeId = null, clickLock = false;
+
+  const node = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  };
+  const creditsText = c => {
+    if (!c) return '';
+    if (c.letra && c.musica && c.letra === c.musica) return `Letra e música: ${c.letra}`;
+    return [c.letra ? `Letra: ${c.letra}` : '', c.musica ? `Música: ${c.musica}` : ''].filter(Boolean).join(' · ');
+  };
+  // "Coro", "Coro 2"… só quando o mesmo rótulo se repete
+  const chipLabels = secoes => {
+    const total = {}, seen = {};
+    secoes.forEach(s => { total[s.rotulo] = (total[s.rotulo] || 0) + 1; });
+    return secoes.map(s => {
+      seen[s.rotulo] = (seen[s.rotulo] || 0) + 1;
+      return total[s.rotulo] > 1 && seen[s.rotulo] > 1 ? `${s.rotulo} ${seen[s.rotulo]}` : s.rotulo;
+    });
+  };
+
+  const applySize = () => {
+    panel.style.setProperty('--lyr-size', SIZES[sizeIdx]);
+    $$('[data-size]', drawer).forEach(b => {
+      const d = Number(b.dataset.size);
+      b.disabled = (d < 0 && sizeIdx === 0) || (d > 0 && sizeIdx === SIZES.length - 1);
+    });
+  };
+
+  const setActive = (id, { scrollChip = true } = {}) => {
+    if (!id || id === activeId) return;
+    activeId = id;
+    chipMap.forEach((chip, cid) => {
+      const on = cid === id;
+      chip.classList.toggle('is-on', on);
+      if (on) chip.setAttribute('aria-current', 'true'); else chip.removeAttribute('aria-current');
+    });
+    const chip = chipMap.get(id);
+    if (chip && scrollChip && chipsEl.scrollWidth > chipsEl.clientWidth + 1) {
+      const cr = chip.getBoundingClientRect(), br = chipsEl.getBoundingClientRect();
+      if (cr.left < br.left || cr.right > br.right) {
+        chipsEl.scrollTo({ left: chipsEl.scrollLeft + (cr.left - br.left) - 20, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    }
+  };
+
+  const renderLyrics = r => {
+    const l = r.letra;
+    $('#drawer-title', drawer).textContent = r.titulo;
+    $('.drawer__credits', drawer).textContent = creditsText(l.creditos);
+    statusEl.textContent = '';
+    chipsEl.replaceChildren();
+    scroller.replaceChildren();
+    chipMap = new Map();
+    activeId = null;
+    const labels = chipLabels(l.secoes);
+    const body = node('div', 'lyr');
+    l.secoes.forEach((sec, i) => {
+      const domId = `lyr-${r.id}-${sec.id}`;
+      const s = node('section', `lyr-sec lyr-sec--${sec.tipo}`);
+      s.id = domId;
+      s.dataset.sec = sec.id;
+      s.style.setProperty('--i', i);
+      s.setAttribute('aria-labelledby', `${domId}-t`);
+      const h = node('h4', 'lyr-label');
+      h.id = `${domId}-t`;
+      h.append(document.createTextNode(sec.rotulo));
+      if (sec.repetir) {
+        const rep = node('span', 'lyr-rep', `×${sec.repetir}`);
+        rep.setAttribute('aria-hidden', 'true');
+        h.append(rep, node('span', 'sr-only', ` (repetir ${sec.repetir} vezes)`));
+      }
+      s.append(h);
+      sec.linhas.forEach(ln => {
+        if (ln.texto) s.append(node('p', ln.vocalize ? 'lyr-line lyr-line--voc' : 'lyr-line', ln.texto));
+        if (ln.apoio) {
+          const p = node('p', 'lyr-apoio');
+          const dash = node('span', 'lyr-dash', '– ');
+          dash.setAttribute('aria-hidden', 'true');
+          p.append(node('span', 'sr-only', 'Voz de apoio: '), dash, document.createTextNode(ln.apoio));
+          s.append(p);
+        }
+      });
+      body.append(s);
+      const chip = node('button', 'lyr-chip', labels[i]);
+      chip.type = 'button';
+      chip.dataset.target = sec.id;
+      chip.setAttribute('aria-controls', domId);
+      chipsEl.append(chip);
+      chipMap.set(sec.id, chip);
+    });
+    scroller.append(body);
+    $('.drawer__foot', drawer).innerHTML = spotifyBtn(r.links.spotify, 'Ouvir no Spotify');
+  };
+
+  // seção atual: a primeira visível no terço de cima da área da letra
+  const atEnd = () => scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4;
+  const observeSections = () => {
+    if (sectionIO) sectionIO.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    const secs = $$('.lyr-sec', scroller);
+    const order = secs.map(s => s.dataset.sec);
+    const visible = new Set();
+    sectionIO = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) visible.add(en.target.dataset.sec); else visible.delete(en.target.dataset.sec); });
+      if (clickLock) return;
+      const id = atEnd() ? order[order.length - 1] : order.find(x => visible.has(x));
+      if (id) setActive(id);
+    }, { root: scroller, rootMargin: '0px 0px -60% 0px', threshold: 0 });
+    secs.forEach(s => sectionIO.observe(s));
+  };
+  scroller.addEventListener('scroll', () => {
+    if (!clickLock && atEnd() && chipMap.size) setActive([...chipMap.keys()].pop());
+  }, { passive: true });
+
+  const fitTail = () => {
+    const body = $('.lyr', scroller);
+    const last = body && body.lastElementChild;
+    if (!last) return;
+    body.style.paddingBottom = Math.max(0, scroller.clientHeight - last.offsetHeight - 16) + 'px';
+  };
+  window.addEventListener('resize', () => { if (!drawer.hidden) fitTail(); });
+
+  const goToSection = id => {
+    const target = $(`.lyr-sec[data-sec="${id}"]`, scroller);
+    if (!target) return;
+    clickLock = true;
+    clearTimeout(lockTimer);
+    setActive(id);
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    lockTimer = setTimeout(() => { clickLock = false; }, reduce ? 50 : 700);
+  };
+
+  // texto puro para copiar
+  const lyricsText = r => {
+    const l = r.letra;
+    const out = [r.titulo, creditsText(l.creditos), ''];
+    l.secoes.forEach(sec => {
+      out.push(sec.rotulo + (sec.repetir ? ` (×${sec.repetir})` : ''));
+      sec.linhas.forEach(ln => {
+        if (ln.texto) out.push(ln.texto);
+        if (ln.apoio) out.push(`(${ln.apoio})`);
+      });
+      out.push('');
+    });
+    out.push('— Ministério Nova Página');
+    return out.join('\n');
+  };
+  const copyLyrics = async () => {
+    const text = lyricsText(current);
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch (_) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+        panel.append(ta);
+        ta.select();
+        ok = document.execCommand('copy');
+        ta.remove();
+      } catch (_) { ok = false; }
+    }
+    statusEl.textContent = ok ? 'Letra copiada' : 'Não foi possível copiar a letra';
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => { statusEl.textContent = ''; }, 2000);
+  };
+
   const focusables = () => $$('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])', panel).filter(el => el.offsetParent !== null);
   const openDrawer = () => {
-    const r = current; opener = document.activeElement;
-    $('#drawer-title', drawer).textContent = r.titulo;
-    $('.drawer__meta', drawer).textContent = `${r.tipo} · ${r.ano}`;
-    $('.drawer__text', drawer).textContent = r.letra;
-    $('.drawer__foot', drawer).innerHTML = spotifyBtn(r.links.spotify, 'Ouvir no Spotify');
+    const r = current;
+    if (!hasLyrics(r)) return;
+    opener = $('.link-lyrics', feature);
+    renderLyrics(r);
+    applySize();
     clearTimeout(closeTimer);
     drawer.hidden = false;
     document.body.style.overflow = 'hidden';
+    scroller.scrollTop = 0;
+    chipsEl.scrollLeft = 0;
     void drawer.offsetWidth;
     drawer.classList.add('is-open');
+    fitTail();
+    setActive(r.letra.secoes[0].id, { scrollChip: false });
+    observeSections();
     $('.drawer__close', drawer).focus({ preventScroll: true });
   };
   const closeDrawer = () => {
     if (drawer.hidden) return;
+    if (sectionIO) { sectionIO.disconnect(); sectionIO = null; }
     drawer.classList.remove('is-open');
     document.body.style.overflow = '';
     closeTimer = setTimeout(() => { drawer.hidden = true; }, reduce ? 0 : 220);
@@ -352,7 +548,18 @@
   };
   $('.link-lyrics', feature).addEventListener('click', openDrawer);
   drawer.addEventListener('click', e => {
-    if (e.target.closest('[data-close]')) closeDrawer();
+    if (e.target.closest('[data-close]')) { closeDrawer(); return; }
+    const chip = e.target.closest('.lyr-chip');
+    if (chip) { goToSection(chip.dataset.target); return; }
+    const size = e.target.closest('[data-size]');
+    if (size) {
+      sizeIdx = Math.min(SIZES.length - 1, Math.max(0, sizeIdx + Number(size.dataset.size)));
+      applySize();
+      fitTail();
+      try { localStorage.setItem(SIZE_KEY, String(sizeIdx)); } catch (_) { /* sem localStorage */ }
+      return;
+    }
+    if (e.target.closest('.drawer__copy')) { copyLyrics(); return; }
     const a = e.target.closest('a[data-pending]'); if (a) e.preventDefault();
   });
   document.addEventListener('keydown', e => {
