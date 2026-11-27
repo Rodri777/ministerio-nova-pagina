@@ -19,7 +19,6 @@
     ['[  ]', 'Primeiro clipe', 'Lançamento do clipe de “Eu Vou Falar”.'],
     ['[  ]', 'Natal Luz', 'Com apoio da Secretaria de Cultura de Sorriso, o grupo se apresentou no Natal Luz.']
   ];
-  const EVENTS = [1, 2, 3].map(() => ({ day: '00', month: 'mês', title: '[Nome do evento]', place: '[Local · cidade · horário]' }));
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -157,17 +156,6 @@
         <h3>${esc(title)}</h3>
         <p>${esc(text)}</p>
       </article>`).join('');
-  }
-
-  /* ---------- agenda ---------- */
-  const eventsEl = $('#events');
-  if (eventsEl) {
-    eventsEl.innerHTML = EVENTS.map(a => `
-      <div class="event">
-        <div class="event__day">${esc(a.day)}<small>${esc(a.month)}</small></div>
-        <div><div class="event__title">${esc(a.title)}</div><div class="event__place">${esc(a.place)}</div></div>
-        <a href="#contato" class="event__btn">Detalhes</a>
-      </div>`).join('');
   }
 
   /* ---------- formulário (somente visual) ---------- */

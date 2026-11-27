@@ -400,23 +400,6 @@ section, [id] { scroll-margin-top: 0; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; gap: 10px; }
 }
 
-/* ---------- AGENDA ---------- */
-.agenda { background: var(--olive); color: var(--ink); padding: var(--section-y) var(--gutter); display: grid; grid-template-columns: 360px 1fr; gap: 80px; }
-.agenda .display { color: var(--ivory); }
-.event { display: grid; grid-template-columns: 110px 1fr auto; gap: 28px; align-items: center; padding: 26px 0; border-top: 1px solid var(--ink); }
-.event__day { font: 400 44px/1 var(--serif); }
-.event__day small { font: 13px var(--sans); letter-spacing: .12em; text-transform: uppercase; margin-left: 8px; }
-.event__title { font-size: 19px; font-weight: 500; }
-.event__place { font-size: 15px; margin-top: 4px; }
-.event__btn { border: 1px solid var(--ink); padding: 11px 20px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; transition: background-color .2s ease, color .2s ease; }
-@media (hover: hover) and (pointer: fine) { .event__btn:hover { background: var(--ink); color: var(--ivory); } }
-@media (max-width: 899px) {
-  .agenda { grid-template-columns: 1fr; gap: 32px; }
-  .event { grid-template-columns: 80px 1fr; gap: 12px 20px; }
-  .event__day small { display: block; margin: 6px 0 0; }
-  .event__btn { grid-column: 2; justify-self: start; }
-}
-
 /* ---------- CONTATO / RODAPÉ ---------- */
 .contact { background: var(--ink); color: var(--ivory); padding: var(--section-y) var(--gutter) 48px; }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }

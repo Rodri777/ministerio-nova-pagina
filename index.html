@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="transitions.css">
 <link rel="stylesheet" href="gallery.css">
 <link rel="stylesheet" href="videos.css">
+<link rel="stylesheet" href="agenda-publica.css">
 <script>document.documentElement.classList.add('js')</script>
 <script>try{if(sessionStorage.getItem('np-wipe'))document.documentElement.classList.add('np-wipe-in')}catch(e){}</script>
 </head>
@@ -179,9 +180,15 @@
 </section>
 
 <!-- ============ AGENDA ============ -->
-<section id="agenda" class="agenda" data-seam data-reveal-children data-stack>
-  <div><div class="eyebrow">Agenda</div><h2 class="display">Próximas apresentações</h2></div>
-  <div id="events"></div>
+<section id="agenda" class="agenda agenda-live" aria-labelledby="agenda-titulo" data-seam data-stack data-stack-noveil>
+  <div class="container">
+    <header class="agenda-head" data-ag-rv style="--i:0">
+      <div class="agenda-eyebrow">Agenda</div>
+      <h2 class="agenda-title" id="agenda-titulo">Próximos <em>encontros</em></h2>
+      <p class="agenda-lead">Venha nos ouvir ao vivo.</p>
+    </header>
+    <div id="events" class="ag-list" aria-live="polite" aria-busy="true"></div>
+  </div>
 </section>
 
 <!-- ============ CONTATO ============ -->
@@ -269,5 +276,7 @@
 <script src="agendamento.js"></script>
 <script src="gallery.js"></script>
 <script src="videos.js"></script>
+<script src="data/agenda-publica.js"></script>
+<script src="agenda-publica.js"></script>
 </body>
 </html>

@@ -44,10 +44,56 @@
 </article>`;
   }
 
+  const CHEV_L = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const CHEV_R = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const pad2 = n => String(n).padStart(2, '0');
+  function navHTML(n) {
+    return `<nav class="reel-nav" aria-label="Navegar pelos vídeos">
+  <button type="button" class="reel-nav__btn" data-dir="-1" aria-label="Vídeos anteriores">${CHEV_L}</button>
+  <span class="reel-nav__count" aria-live="polite">01 / ${pad2(n)}</span>
+  <button type="button" class="reel-nav__btn" data-dir="1" aria-label="Próximos vídeos">${CHEV_R}</button>
+</nav>`;
+  }
+
+  // Trilho com rolagem: setas avançam um card por vez; o contador mostra o primeiro visível.
+  function setupRail() {
+    const rail = side.querySelector('.video-rail');
+    const nav = side.querySelector('.reel-nav');
+    if (!rail || !nav) return;
+    const prev = nav.querySelector('[data-dir="-1"]');
+    const next = nav.querySelector('[data-dir="1"]');
+    const count = nav.querySelector('.reel-nav__count');
+    const step = () => {
+      const c = rail.querySelector('.reel');
+      if (!c) return 0;
+      const gap = parseFloat(getComputedStyle(rail).columnGap) || 20;
+      return c.getBoundingClientRect().width + gap;
+    };
+    const update = () => {
+      const max = rail.scrollWidth - rail.clientWidth - 2;
+      prev.disabled = rail.scrollLeft <= 2;
+      next.disabled = rail.scrollLeft >= max;
+      const s = step() || 1;
+      const idx = Math.min(list.length, Math.round(rail.scrollLeft / s) + 1);
+      count.textContent = `${pad2(idx)} / ${pad2(list.length)}`;
+    };
+    const go = dir => rail.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' });
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    rail.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    if ('ResizeObserver' in window) new ResizeObserver(update).observe(rail);
+    requestAnimationFrame(update);
+    update();
+  }
+
   function render(items) {
-    list = items.filter(v => v && typeof v.codigo === 'string' && v.codigo.trim());
+    list = items.filter(v => v && ((typeof v.codigo === 'string' && v.codigo.trim()) || (typeof v.arquivo === 'string' && v.arquivo.trim())));
     side.dataset.count = String(list.length);
-    side.innerHTML = list.map(cardHTML).join('');
+    if (list.length > 2) side.setAttribute('data-scroll', ''); else side.removeAttribute('data-scroll');
+    side.innerHTML = '<div class="video-rail" tabindex="-1">' + list.map(cardHTML).join('') + '</div>' +
+      (list.length > 2 ? navHTML(list.length) : '');
+    if (list.length > 2) setupRail();
     if (!reduce) observe();
     else side.classList.add('is-in');
   }
@@ -115,17 +161,21 @@
     prevEl.addEventListener('click', () => step(-1));
     nextEl.addEventListener('click', () => step(1));
     lb.addEventListener('keydown', onKey);
-    window.addEventListener('resize', () => { if (!lb.hidden) sizeFrame(); });
+    window.addEventListener('resize', () => { if (!lb.hidden) sizeFrame(cur); });
   }
 
   // Largura do player: até 400px; altura = largura × 16/9 + 160px (moldura), até 90vh.
-  function sizeFrame() {
+  function sizeFrame(i) {
     const vw = window.innerWidth, vh = window.innerHeight;
     const desktop = vw >= 900;
+    const v = list[i == null ? cur : i] || {};
+    const local = !!v.arquivo;
+    const ratio = local && v.capaLargura && v.capaAltura ? v.capaAltura / v.capaLargura : 16 / 9;
+    const extra = local ? 0 : 160;
     let w = Math.min(400, vw * 0.92 - (desktop ? 312 : 0));
-    if (w * 16 / 9 + 160 > vh * 0.9) w = (vh * 0.9 - 160) * 9 / 16;
+    if (w * ratio + extra > vh * 0.9) w = (vh * 0.9 - extra) / ratio;
     w = Math.max(200, Math.round(w));
-    const h = Math.round(w * 16 / 9 + 160);
+    const h = Math.round(w * ratio + extra);
     lb.style.setProperty('--fw', w + 'px');
     lb.style.setProperty('--fh', h + 'px');
   }
@@ -133,6 +183,7 @@
   function clearFrame() {
     clearTimeout(timer);
     timer = null;
+    frameEl.querySelectorAll('video').forEach(n => { n.pause(); n.removeAttribute('src'); n.load(); n.remove(); });
     frameEl.querySelectorAll('iframe').forEach(n => n.remove());
   }
 
@@ -145,12 +196,26 @@
     eyebrowEl.textContent = eyebrowOf(v);
     titleEl.textContent = v.titulo;
     metaEl.textContent = metaOf(v);
-    linkEl.href = v.url;
-    altEl.href = v.url;
+    linkEl.href = v.url || v.arquivo || '#';
+    altEl.href = v.url || v.arquivo || '#';
     errEl.hidden = true;
     loadEl.hidden = false;
     prevEl.hidden = nextEl.hidden = list.length < 2;
 
+    if (v.arquivo) {
+      const vid = document.createElement('video');
+      vid.controls = true; vid.playsInline = true; vid.preload = 'metadata';
+      vid.poster = v.capaFallback || '';
+      vid.setAttribute('aria-label', v.titulo);
+      vid.style.cssText = 'width:100%;height:100%;position:relative;z-index:1;background:#0a0806;display:block';
+      const done = () => { clearTimeout(timer); timer = null; loadEl.hidden = true; };
+      vid.addEventListener('loadeddata', done);
+      vid.addEventListener('error', () => { clearTimeout(timer); timer = null; vid.remove(); loadEl.hidden = true; errEl.hidden = false; });
+      vid.src = v.arquivo;
+      frameEl.appendChild(vid);
+      timer = setTimeout(() => { vid.remove(); loadEl.hidden = true; errEl.hidden = false; timer = null; }, TIMEOUT);
+      return;
+    }
     const f = document.createElement('iframe');
     f.src = 'https://www.instagram.com/reel/' + encodeURIComponent(v.codigo) + '/embed';
     f.title = v.titulo + ' no Instagram';
@@ -176,7 +241,7 @@
     if (!lb) buildLb();
     origin = from || null;
     lb.hidden = false;
-    sizeFrame();
+    sizeFrame(i);
     showItem(i);
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => lb.classList.add('is-on'));

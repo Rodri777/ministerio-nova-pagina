@@ -32,6 +32,23 @@
       "capaFallback": "assets/videos/cantata-natal-2025-capa.jpg",
       "capaLargura": 1005,
       "capaAltura": 1600
+    },
+    {
+      "id": "apresentacao-camara-sorriso",
+      "plataforma": "local",
+      "codigo": null,
+      "arquivo": "assets/videos/video-2026-11-25.mp4",
+      "url": null,
+      "titulo": "Apresentação na Câmara Municipal de Sorriso",
+      "dataExibicao": null,
+      "evento": null,
+      "local": "Câmara Municipal de Sorriso - MT",
+      "tipo": null,
+      "descricao": null,
+      "capa": "assets/videos/video-2026-11-25-capa.webp",
+      "capaFallback": "assets/videos/video-2026-11-25-capa.jpg",
+      "capaLargura": 576,
+      "capaAltura": 1280
     }
   ]
 }
