@@ -9,16 +9,31 @@
   const narrowMQ = window.matchMedia('(max-width: 768px)');
   const animate = (el, frames, opts) => (el.animate ? el.animate(frames, opts) : null);
 
-  /* ---------- dados ---------- */
+  /* ---------- dados: linha do tempo de 2025 ----------
+     Ordenada por "date" (AAAA-MM-DD) antes de renderizar; o item final (sem data) fica sempre por último.
+     Usada na home (#sobre) e em nossa-historia.html. */
   const MILESTONES = [
-    ['30 ago', 'Início do projeto', 'Jovens com dons musicais se reuniram para dar vida a um novo projeto.'],
-    ['5 out', 'Primeira apresentação', 'Em Nova Mutum (MT), o grupo subiu ao palco pela primeira vez.'],
-    ['[  ]', 'Câmara Municipal de Sorriso', 'A convite da Câmara, o grupo levou uma mensagem especial e um tema importante a todos os presentes.'],
-    ['[  ]', 'Gravação em estúdio', '“Eu Vou Falar” foi gravada em estúdio na Betel Música e Artes, em Sorriso.'],
-    ['[  ]', 'Nas plataformas digitais', 'Está no YouTube, Spotify, Deezer, Amazon Music e nas principais plataformas digitais.'],
-    ['[  ]', 'Primeiro clipe', 'Lançamento do clipe de “Eu Vou Falar”.'],
-    ['[  ]', 'Natal Luz', 'Com apoio da Secretaria de Cultura de Sorriso, o grupo se apresentou no Natal Luz.']
-  ];
+    { date: '2025-08-30', label: '30 de agosto de 2025', title: 'O início do projeto',
+      text: 'Jovens com dons musicais se reuniram para dar vida a um novo projeto. Nesse dia foram definidos os integrantes e o propósito do Ministério Nova Página: levar a mensagem de Cristo a quem está sem esperança.' },
+    { date: '2025-10-05', label: '5 de outubro de 2025', title: 'Primeira apresentação',
+      text: 'Em Nova Mutum (MT), o grupo subiu ao palco pela primeira vez e começou a levar sua mensagem por Mato Grosso.' },
+    { date: '2025-10-27', label: '27 de outubro de 2025', title: 'Primeira música publicada',
+      text: '“Eu Vou Falar”, gravada em estúdio na Betel Música e Artes, em Sorriso, chega ao público. Está no YouTube, Spotify, Deezer, Amazon Music e nas principais plataformas digitais.' },
+    { date: '2025-11-06', label: '6 de novembro de 2025', title: 'Primeiro clipe musical',
+      text: 'Lançamento do clipe de “Eu Vou Falar”. Direção e edição de filmagem: Ewerton Lourenço. Filmagem: Wends Pierre e Ewerton Lourenço. Drone: Jackson Fernandes.' },
+    { date: '2025-12-04', label: '4 de dezembro de 2025', title: 'Câmara Municipal de Sorriso',
+      text: 'A convite da Câmara, o grupo levou uma mensagem especial e uma pauta importante a todos os presentes.' },
+    { date: '2025-12-16', label: '16 de dezembro de 2025', title: 'Promic · Natal Luz',
+      text: 'Com apoio da Secretaria de Cultura de Sorriso, o grupo se apresentou no Natal Luz e mostrou seu repertório e o Ministério Nova Página a todo o público.' },
+    { date: '2025-12-17', label: '17 de dezembro de 2025', title: '“Evangelho”',
+      text: 'A segunda música gravada em estúdio chega a todas as plataformas digitais.' }
+  ].sort((a, b) => a.date.localeCompare(b.date));
+  const TL_END = {
+    title: 'E a história segue sendo escrita...',
+    text: 'Acompanhe os próximos lançamentos, clipes e apresentações no nosso acervo.',
+    cta: 'Ver história completa',
+    href: 'nossa-historia.html'
+  };
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -131,11 +146,11 @@
   const tlCards = $('#tl-cards');
   if (tlPoints) {
     const last = MILESTONES.length - 1;
-    tlPoints.innerHTML = MILESTONES.map(([date, title, text], i) => `
-      <div class="tl-pt${i === last ? ' is-latest' : ''}" data-pt="${i}" tabindex="0" role="button" aria-label="${esc(date + ' — ' + title)}" aria-expanded="false">
+    tlPoints.innerHTML = MILESTONES.map(({ label, title, text }, i) => `
+      <div class="tl-pt${i === last ? ' is-latest' : ''}" data-pt="${i}" tabindex="0" role="button" aria-label="${esc(label + ' — ' + title)}" aria-expanded="false">
         <div class="tl-tip" role="tooltip">${esc(text)}</div>
         <div class="tl-dot"></div>
-        <div class="tl-meta"><div class="tl-date">${esc(date)}</div><div class="tl-title">${esc(title)}</div></div>
+        <div class="tl-meta"><div class="tl-date">${esc(label)}</div><div class="tl-title">${esc(title)}</div></div>
       </div>`).join('');
     const pts = $$('.tl-pt', tlPoints);
     const setOpen = (pt, open) => { pt.classList.toggle('is-open', open); pt.setAttribute('aria-expanded', String(open)); };
@@ -150,12 +165,39 @@
   }
   if (tlCards) {
     const last = MILESTONES.length - 1;
-    tlCards.innerHTML = MILESTONES.map(([date, title, text], i) => `
+    tlCards.innerHTML = MILESTONES.map(({ label, title, text }, i) => `
       <article class="tl-card${i === last ? ' is-latest' : ''}" data-pt="${i}">
-        <div class="tl-card__top"><span class="tl-card__dot"></span><span class="tl-date">${esc(date)}</span></div>
+        <div class="tl-card__top"><span class="tl-card__dot"></span><span class="tl-date">${esc(label)}</span></div>
         <h3>${esc(title)}</h3>
         <p>${esc(text)}</p>
       </article>`).join('');
+  }
+  // item final (sem data) + botão, sempre depois dos marcos
+  const tlEnd = $('#tl-end');
+  if (tlEnd) {
+    tlEnd.innerHTML = `
+      <h3 class="tl-end__title">${esc(TL_END.title)}</h3>
+      <p class="tl-end__text">${esc(TL_END.text)}</p>
+      <a href="${esc(TL_END.href)}" class="link-arrow tl-end__cta">${esc(TL_END.cta)} <span class="arrow">→</span></a>`;
+  }
+
+  /* ---------- linha do tempo (nossa-historia.html) ---------- */
+  const vtl = $('#vtl');
+  if (vtl) {
+    const last = MILESTONES.length - 1;
+    vtl.insertAdjacentHTML('beforeend', MILESTONES.map(({ label, title, text }, i) => `
+      <div class="vtl__item${i === last ? ' is-latest' : ''}" data-pt="${i}">
+        <div class="vtl__date">${esc(label)}</div>
+        <div class="vtl__dotcol"><div class="vtl__dot"></div></div>
+        <div><h3>${esc(title)}</h3><p>${esc(text)}</p><a href="index.html#galeria" class="link-arrow">Ver fotos <span class="arrow">→</span></a></div>
+        <div class="placeholder">foto do marco</div>
+      </div>`).join('') + `
+      <div class="vtl__item vtl__item--end" data-pt="${MILESTONES.length}">
+        <div class="vtl__date"></div>
+        <div class="vtl__dotcol"><div class="vtl__dot"></div></div>
+        <div><h3>${esc(TL_END.title)}</h3><p>${esc(TL_END.text)}</p></div>
+        <div></div>
+      </div>`);
   }
 
   /* ---------- formulário (somente visual) ---------- */
