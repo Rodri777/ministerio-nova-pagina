@@ -229,7 +229,7 @@ window.NP_RELEASES = [
     ano: '2025',
     data: '2025-12-17',
     capa: 'assets/capa-evangelho.png',
-    spotifyId: null,
+    spotifyId: '4K5WiyTaLgGC6YflV40ITP',
     spotifyTipo: 'track',
     links: {
       spotify: 'https://open.spotify.com/album/7mAmTaNkQtLDSC3PSMRIVQ',
