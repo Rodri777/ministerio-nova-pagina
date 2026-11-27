@@ -1,7 +1,7 @@
 /* ---------- DISCOGRAFIA (#discografia) ---------- */
 .disco {
   --disco-bg: #0f0b08;
-  --muted: rgba(237,233,227,.74);
+  --muted: rgba(237,233,227,.85);
   --line: rgba(228,171,89,.4);
   position: relative; overflow: clip; color: var(--ivory);
   padding-block: clamp(80px, 10vw, 140px);
@@ -191,7 +191,7 @@
   position: absolute; left: 50%; top: 42%; width: 46%; height: auto; transform: translate(-50%, -50%);
   opacity: .1; filter: url(#np-outline); pointer-events: none;
 }
-.next__title { position: relative; margin: 0; font: 400 1.25rem/1.15 var(--serif); text-wrap: balance; }
+.next__title { position: relative; margin: 0; font: 500 1.25rem/1.15 var(--serif); text-wrap: balance; }
 .next__text { position: relative; margin: 0; font-size: .875rem; line-height: 1.45; color: var(--muted); }
 .next .btn-spotify { position: relative; align-self: flex-start; margin-top: 4px; white-space: nowrap; }
 .next__mark { top: 30%; width: 40%; }
@@ -251,7 +251,7 @@
 .drawer__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 28px 28px 16px; border-bottom: 1px solid rgba(237,233,227,.1); }
 .drawer__head .eyebrow { margin-bottom: 10px; }
 .drawer__title { margin: 0; font: 400 2rem/1.1 var(--serif); }
-.drawer__meta { margin-top: 6px; font-size: .9375rem; color: rgba(237,233,227,.74); }
+.drawer__meta { margin-top: 6px; font-size: .9375rem; color: rgba(237,233,227,.85); }
 .drawer__close { width: 44px; height: 44px; flex: none; border: 1px solid rgba(228,171,89,.4); border-radius: 50%; background: none; color: var(--ivory); font-size: 24px; line-height: 1; cursor: pointer; }
 .drawer__text { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 24px 28px; font: 400 1.125rem/1.8 var(--serif); white-space: pre-line; color: var(--ivory); }
 .drawer__foot { padding: 16px 28px 28px; border-top: 1px solid rgba(237,233,227,.1); }
@@ -301,4 +301,9 @@
 }
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
   .drawer__panel, .drawer.is-open .drawer__panel { transform: none; }
+}
+
+/* tipografia: rótulo "Em destaque" um pouco maior no celular */
+@media (max-width: 640px) {
+  .rel__badge { font-size: 14px; }
 }

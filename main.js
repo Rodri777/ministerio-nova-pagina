@@ -153,6 +153,26 @@
         <div class="tl-meta"><div class="tl-date">${esc(label)}</div><div class="tl-title">${esc(title)}</div></div>
       </div>`).join('');
     const pts = $$('.tl-pt', tlPoints);
+    // datas com alturas iguais: os títulos começam na mesma linha mesmo quando uma data quebra em duas
+    const dates = $$('.tl-date', tlPoints);
+    const tlBox = tlPoints.closest('.tl');
+    const equalize = () => {
+      dates.forEach(d => { d.style.minHeight = ''; });
+      const max = Math.max(...dates.map(d => d.getBoundingClientRect().height));
+      if (max > 0) dates.forEach(d => { d.style.minHeight = max + 'px'; });
+      // o trilho acompanha a altura dos textos, para não invadir o bloco seguinte
+      if (tlBox && getComputedStyle(tlBox).display !== 'none') {
+        tlBox.style.height = '';
+        const base = tlBox.getBoundingClientRect().height;
+        const need = Math.max(...pts.map(pt => pt.querySelector('.tl-meta').getBoundingClientRect().bottom)) - tlBox.getBoundingClientRect().top;
+        if (need > base) tlBox.style.height = Math.ceil(need) + 'px';
+      }
+    };
+    let eqRaf = 0;
+    const scheduleEq = () => { cancelAnimationFrame(eqRaf); eqRaf = requestAnimationFrame(equalize); };
+    equalize();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleEq);
+    window.addEventListener('resize', scheduleEq);
     const setOpen = (pt, open) => { pt.classList.toggle('is-open', open); pt.setAttribute('aria-expanded', String(open)); };
     pts.forEach(pt => {
       pt.addEventListener('mouseenter', () => setOpen(pt, true));

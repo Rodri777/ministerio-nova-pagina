@@ -146,8 +146,8 @@
 
   function actionsHTML(ev) {
     const chegar = ev.rawLocation && !ev.isLink
-      ? `<a class="ag-link" href="${esc(mapsUrl(ev))}" target="_blank" rel="noopener noreferrer">Como chegar &#8599;</a>`
-      : (ev.isLink ? `<a class="ag-link" href="${esc(ev.rawLocation)}" target="_blank" rel="noopener noreferrer">Acessar link do evento &#8599;</a>` : '');
+      ? `<a class="ag-map" href="${esc(mapsUrl(ev))}" target="_blank" rel="noopener noreferrer">Como chegar &#8599;</a>`
+      : (ev.isLink ? `<a class="ag-map" href="${esc(ev.rawLocation)}" target="_blank" rel="noopener noreferrer">Acessar link do evento &#8599;</a>` : '');
     return `<div class="ag-actions">
   <a class="ag-folha" href="${esc(calendarUrl(ev))}" target="_blank" rel="noopener noreferrer"><span>+ Adicionar à minha agenda</span></a>
   ${chegar}
